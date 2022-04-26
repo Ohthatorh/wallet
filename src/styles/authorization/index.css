@@ -1,0 +1,57 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #116ACC;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    padding: 0 35px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    padding: 0 72px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
+
+.header {
+  background-color: var(--primary-color);
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+  padding: 25px 0;
+}
+/*# sourceMappingURL=index.css.map */

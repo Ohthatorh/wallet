@@ -1,0 +1,51 @@
+@import 'mixin';
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #116ACC;
+}
+
+body,
+html {
+    @include clearStyles;
+    min-width: 320px;
+    font-size: 16px;
+    // font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    // color: $blackColor;
+}
+
+.container {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 0 50px;
+    @media only screen and (max-width: 1366px) {
+        padding: 0 35px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        padding: 0 72px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        padding: 0 12px;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+}
+
+// .title {
+//     @include clearStyles;
+//     margin-bottom: 50px;
+//     color: $whiteColor;
+//     text-align: center;
+// }
