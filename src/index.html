@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="styles/authorization/index.css">
+    <title>Coin - Вход</title>
 </head>
 <body>
     <header class="header">
@@ -13,5 +12,26 @@
             <img src="img/logo.svg" alt="Логотип" class="header__logo">
         </div>
     </header>
+    <main class="main">
+        <h1 class="visually-hidden">Coin</h1>
+        <div class="main__wrap container">
+            <form class="main__form">
+                <h2 class="main__form-title title">
+                    Вход в аккаунт
+                </h2>
+                <label class="main__form-label">
+                    Логин
+                    <input type="text" class="main__form-input" placeholder="Логин">
+                </label>
+                <label class="main__form-label">
+                    Пароль
+                    <input type="text" class="main__form-input" placeholder="Пароль">
+                </label>
+                <a href="components/cabinet/index.html" class="main__form-button button">
+                    Войти
+                </a>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
