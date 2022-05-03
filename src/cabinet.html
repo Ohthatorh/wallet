@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin - Кабинет</title>
+    <link rel="stylesheet" href="styles/cabinet/index.css">
+    <script defer type="module" src="scripts/cabinet.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header__wrap container">
+        <img src="/src/img/logo.svg" alt="Логотип" class="header__logo">
+        <ul class="header__wrap-list">
+          <li class="header__wrap-item">
+            <button class="header__wrap-item-button">
+              Банкоматы
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button class="header__wrap-item-button disabled-button">
+              Счета
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button class="header__wrap-item-button">
+              Валюта
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="logout" class="header__wrap-item-button">
+              Выйти
+            </button>
+          </li>
+        </ul>
+    </div>
+  </header>
+  <main class="main">
+    <section class="main__wrap container">
+      <div class="main__wrap-panel">
+        <div class="main__wrap-panel-left">
+          <h2 class="main__wrap-title title">
+            Ваши счета
+          </h2>
+          <div class="main__wrap-sort">
+            <p class="main__wrap-sort-placeholder">
+              Сортировка
+            </p>
+            <ul class="main__wrap-sort-list">
+              <li class="main__wrap-sort-item">По номеру</li>
+              <li class="main__wrap-sort-item">По балансу</li>
+              <li class="main__wrap-sort-item">По последней транзакции</li>
+            </ul>
+          </div>
+        </div>
+        <button class="main__wrap-button button">
+          Создать новый счёт
+        </button>
+      </div>
+      <ul class="main__wrap-list">
+
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,47 @@
+.main {
+    &__wrap {
+        padding: 262px 0;
+    }
+    &__form {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 50px 0 40px 115px;
+        width: 500px;
+        background-color: var(--gray-7);
+        border-radius: 50px;
+        &-title {
+            margin-bottom: 35px;
+        }
+        &-label {
+            align-self: flex-end;
+            transform: translateX(-85px);
+            &:not(:last-child) {
+                margin-bottom: 25px;
+            }
+        }
+        &-input {
+            width: 300px;
+            margin-left: 18px;
+            padding: 10px 16px;
+            border-radius: 7px;
+            border: 1px solid var(--gray-5);
+            background-color: var(--white-color);
+            font-family: 'Ubuntu';
+            &::placeholder {
+                color: var(--gray-4);
+            }
+        }
+        &-link {
+            display: inline-block;
+            align-self: flex-start;
+            border-radius: 7px;
+            padding: 14px 21px;
+            font-family: 'Ubuntu';
+            font-weight: 500;
+            font-size: 14px;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+    }
+}

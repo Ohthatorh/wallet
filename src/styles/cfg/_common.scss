@@ -1,3 +1,4 @@
+@import '../addons/normalize';
 @import 'mixin';
 @import '../fonts/fonts';
 
@@ -6,7 +7,14 @@
 }
 
 :root {
+    --white-color: #FFFFFF;
     --primary-color: #116ACC;
+    --primary-hover: #A0C3FF;
+    --red-color: #FD4E5D;
+    --green-color: #76CA66;
+    --gray-2: #374151;
+    --gray-4: #6B7280;
+    --gray-5: #9CA3AF;
     --gray-7: #F3F4F6;
 }
 
@@ -14,14 +22,12 @@ body,
 html {
     @include clearStyles;
     min-width: 320px;
-    font-size: 16px;
     font-family: 'Work Sans', sans-serif;
     font-weight: 400;
-    // color: $blackColor;
 }
 
 .container {
-    max-width: 1380px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 50px;
     @media only screen and (max-width: 1366px) {
@@ -45,9 +51,32 @@ html {
     margin: -1px;
 }
 
-// .title {
-//     @include clearStyles;
-//     margin-bottom: 50px;
-//     color: $whiteColor;
-//     text-align: center;
-// }
+a {
+    text-decoration: none;
+}
+
+ul {
+    @include clearStyles;
+    list-style-type: none;
+}
+
+input,
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+p, h2, h3 {
+  @include clearStyles;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 34px;
+}
+
+.disabled-button {
+  background-color: var(--primary-hover) !important;
+  cursor: default;
+}
