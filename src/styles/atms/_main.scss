@@ -1,0 +1,10 @@
+.main {
+  &__wrap {
+    padding-top: 50px;
+  }
+  &__panel {
+    &-title {
+      margin-bottom: 50px;
+    }
+  }
+}

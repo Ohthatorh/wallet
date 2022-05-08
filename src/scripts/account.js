@@ -3,7 +3,7 @@ import { convertDate } from "./addons/convertDate.js";
 import "./addons/chart.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("bearerToken")) {
+  if (localStorage.getItem("bearerToken") && document.location.search) {
     refreshAccount(document.location.search.substring(1));
   } else {
     document.location.href = "index.html";
@@ -29,9 +29,9 @@ document.addEventListener("click", async (e) => {
         Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
       },
       body: JSON.stringify({
-        accountFrom,
-        accountTo,
-        amount,
+        from: accountFrom,
+        to: accountTo,
+        amount: amount,
       }),
     })
       .then((res) => res.json())
