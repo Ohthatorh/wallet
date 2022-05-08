@@ -29,9 +29,9 @@ document.addEventListener("click", async (e) => {
         Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
       },
       body: JSON.stringify({
-        from: accountFrom,
-        to: accountTo,
-        amount: amount,
+        from: "74213041477477406320783754",
+        to: "74213041477477406320783754",
+        amount: 1000,
       }),
     })
       .then((res) => res.json())
