@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.addEventListener("click", (e) => {
+  if (e.target.className === "main__exchange-button") {
+    e.preventDefault();
+    currencyBuy();
+  }
+});
+
 async function refreshCurrensies() {
   const currensiesUrl = new URL("http://localhost:3000/currencies");
   return await fetch(currensiesUrl, {
@@ -76,4 +83,21 @@ async function getCurrencyFeed() {
     `;
     currencyList.insertAdjacentHTML("afterbegin", currencyElement);
   };
+}
+
+async function currencyBuy() {
+  const currencyBuyUrl = new URL("http://localhost:3000/currency-buy");
+  return await fetch(currencyBuyUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+    },
+    body: JSON.stringify({
+      from: "ETH",
+      to: "EUR",
+      amount: 1,
+    }),
+  })
+    .then((res) => res.json())
+    .then((res) => console.log(res));
 }
