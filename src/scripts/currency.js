@@ -1,5 +1,6 @@
 import "./addons/choices.min.js";
 import "./header.js";
+import { showMessage } from "./components/showMessage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken")) {
@@ -11,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+const amountInputElement = document.querySelector("#amount");
+const exchangeButtonElement = document.querySelector(".main__exchange-button");
+amountInputElement.addEventListener("input", (e) => {
+  if (e.currentTarget.value.length <= 0) {
+    exchangeButtonElement.disabled = true;
+  } else {
+    exchangeButtonElement.disabled = false;
+  }
+});
+
 document.addEventListener("click", (e) => {
   if (e.target.className === "main__exchange-button") {
     e.preventDefault();
@@ -19,6 +30,8 @@ document.addEventListener("click", (e) => {
 });
 
 async function refreshCurrensies() {
+  const yourCurrencyList = document.querySelector(".main__yourcurrency-list");
+  yourCurrencyList.innerHTML = "";
   const currensiesUrl = new URL("http://localhost:3000/currencies");
   return await fetch(currensiesUrl, {
     headers: {
@@ -27,9 +40,6 @@ async function refreshCurrensies() {
   })
     .then((res) => res.json())
     .then((res) => {
-      const yourCurrencyList = document.querySelector(
-        ".main__yourcurrency-list"
-      );
       for (let key in res.payload) {
         if (res.payload[key].amount !== 0) {
           const htmlElement = `
@@ -91,13 +101,43 @@ async function currencyBuy() {
     method: "POST",
     headers: {
       Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "ETH",
-      to: "EUR",
-      amount: 1,
+      from: document.querySelector("#selectFrom").value,
+      to: document.querySelector("#selectTo").value,
+      amount: amountInputElement.value,
     }),
   })
     .then((res) => res.json())
-    .then((res) => console.log(res));
+    .then((res) => {
+      if (res.payload) {
+        amountInputElement.value = "";
+        exchangeButtonElement.disabled = true;
+        showMessage("Обмен прошёл успешно!", "success");
+        refreshCurrensies();
+      }
+      if (res.error) {
+        switch (res.error) {
+          case "Unknown currency code":
+            showMessage(
+              "Неверный валютный код, обратитесь к администратору",
+              "error"
+            );
+            break;
+          case "Not enough currency":
+            showMessage("На валютном счёте списания нет средств", "error");
+            break;
+          case "Invalid amount":
+            showMessage(
+              "Не указана сумма перевода, или она отрицательная",
+              "error"
+            );
+            break;
+          case "Overdraft prevented":
+            showMessage("На счёте не хватает средств", "error");
+            break;
+        }
+      }
+    });
 }

@@ -124,6 +124,7 @@ ul {
 input,
 button {
   border: none;
+  outline: none;
   background-color: transparent;
   cursor: pointer;
 }
@@ -131,6 +132,11 @@ button {
 p, h2, h3 {
   margin: 0;
   padding: 0;
+}
+
+button:disabled {
+  background-color: var(--primary-hover) !important;
+  cursor: default;
 }
 
 .title {

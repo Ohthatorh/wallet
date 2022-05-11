@@ -1,7 +1,5 @@
 import "regenerator-runtime/runtime";
 import Navigo from "navigo";
-import { cabinet, cabinetFunctions } from "./components/cabinet/cabinet";
-import { login, loginFunctions } from "./components/login/login";
 const router = new Navigo("/");
 
 // router.on("/", function () {

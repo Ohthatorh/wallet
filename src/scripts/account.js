@@ -1,13 +1,28 @@
 import "./header.js";
 import { convertDate } from "./addons/convertDate.js";
 import "./addons/chart.js";
+import { showMessage } from "./components/showMessage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  localStorage.removeItem("allAccounts");
   if (localStorage.getItem("bearerToken") && document.location.search) {
     refreshAccount(document.location.search.substring(1));
   } else {
     document.location.href = "index.html";
   }
+});
+const accountTo = document.getElementById("account-to");
+const amount = document.getElementById("amount");
+const transferButtonElement = document.querySelector(".main__info-form-button");
+
+document.querySelectorAll(".main__info-form-input").forEach((input) => {
+  input.addEventListener("input", () => {
+    if (accountTo.value.length && amount.value.length) {
+      transferButtonElement.disabled = false;
+    } else {
+      transferButtonElement.disabled = true;
+    }
+  });
 });
 
 document.addEventListener("click", async (e) => {
@@ -17,31 +32,55 @@ document.addEventListener("click", async (e) => {
   if (e.target.className === "main__info-form-button") {
     e.preventDefault();
     const transferUrl = new URL(`http://localhost:3000/transfer-funds`);
-    const accountFrom = document
-      .getElementById("account-number")
-      .textContent.substring(1);
-    const accountTo = document.getElementById("account-to").value;
-    const amount = document.getElementById("amount").value;
-    console.log(accountFrom);
     return await fetch(transferUrl, {
       method: "POST",
       headers: {
         Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "74213041477477406320783754",
-        to: "74213041477477406320783754",
-        amount: 1000,
+        from: document.location.search.substring(1),
+        to: accountTo.value,
+        amount: amount.value,
       }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
-    // .then((res) => {
-    //   document.getElementById("balance").textContent =
-    //     res.payload.balance + " ₽";
-    //   refreshChart(res.payload.transactions);
-    //   refreshTable(res.payload.transactions);
-    // });
+      .then((res) => {
+        if (res.payload) {
+          showMessage("Перевод прошёл успешно!", "success");
+          document.getElementById("balance").textContent =
+            res.payload.balance + " ₽";
+          accountTo.value = "";
+          amount.value = "";
+          // refreshChart(res.payload.transactions);
+          refreshTable(res.payload.transactions);
+        }
+        if (res.error) {
+          switch (res.error) {
+            case "Invalid account from":
+              showMessage(
+                "Не указан адрес счёта списания, или этот счёт не принадлежит нам",
+                "error"
+              );
+              break;
+            case "Invalid account to":
+              showMessage(
+                "Не указан счёт зачисления, или этого счёта не существует",
+                "error"
+              );
+              break;
+            case "Invalid amount":
+              showMessage(
+                "Не указана сумма перевода, или она отрицательная",
+                "error"
+              );
+              break;
+            case "Overdraft prevented":
+              showMessage("На счёте не хватает средств", "error");
+              break;
+          }
+        }
+      });
   }
 });
 
@@ -54,7 +93,12 @@ async function refreshAccount(account) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
+      // const allAccounts = [];
+      // res.payload.transactions.forEach((transaction) => {
+      //   if (!allAccounts.find((element) => element === transaction.to)) {
+      //     allAccounts.push(transaction.to);
+      //   }
+      // });
       document.getElementById("account-number").textContent =
         "№ " + res.payload.account;
       document.getElementById("balance").textContent =
@@ -63,7 +107,6 @@ async function refreshAccount(account) {
       refreshTable(res.payload.transactions);
     });
 }
-
 function refreshChart(data) {
   const chart = new Chart(document.getElementById("bar-chart"), {
     type: "bar",
@@ -82,9 +125,13 @@ function refreshChart(data) {
   });
 }
 function refreshTable(data) {
+  const transactionsList = document.querySelector(".main__history-list");
+  for (let key of transactionsList.children) {
+    if (!key.classList.contains("list-titles")) key.remove();
+  }
   const reversedData = data.reverse();
   reversedData.forEach((el, i) => {
-    if (i < 11) {
+    if (i < 10) {
       const item = `
         <li class="main__history-item">
           <p class="main__history-item-text">
@@ -105,9 +152,12 @@ function refreshTable(data) {
           </p>
         </li>
       `;
+      transactionsList.insertAdjacentHTML("beforeend", item);
       document
-        .querySelector(".main__history-list")
-        .insertAdjacentHTML("beforeend", item);
+        .querySelectorAll(".main__history-item")
+        [++i].addEventListener("click", () => {
+          console.log(el);
+        });
     }
   });
 }

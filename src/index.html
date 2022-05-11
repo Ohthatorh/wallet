@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin - Вход</title>
     <link rel="stylesheet" href="styles/authorization/index.css">
-    <script defer src="scripts/authorization.js"></script>
+    <script type="module" defer src="scripts/authorization.js"></script>
 </head>
 <body>
   <header class="header">
@@ -17,23 +17,23 @@
   <main class="main">
     <h1 class="visually-hidden">Coin</h1>
     <div class="main__wrap container">
-        <form class="main__form">
-            <h2 class="main__form-title title">
-                Вход в аккаунт
-            </h2>
-            <label class="main__form-label">
-                Логин
-                <input type="text" class="main__form-input" placeholder="Логин">
-            </label>
-            <label class="main__form-label">
-                Пароль
-                <input type="text" class="main__form-input" placeholder="Пароль">
-            </label>
-            <a href="#" class="main__form-link">
-                Войти
-            </a>
-        </form>
-      </div>
+      <form class="main__form">
+        <h2 class="main__form-title title">
+          Вход в аккаунт
+        </h2>
+        <label class="main__form-label">
+          Логин
+          <input id="login" type="text" class="main__form-input" placeholder="Логин">
+        </label>
+        <label class="main__form-label">
+          Пароль
+          <input id="password" type="password" class="main__form-input" placeholder="Пароль">
+        </label>
+        <a href="#" class="main__form-link disabled">
+          Войти
+        </a>
+      </form>
+    </div>
   </main>
 </body>
 </html>

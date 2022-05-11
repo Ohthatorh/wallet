@@ -64,12 +64,18 @@ ul {
 input,
 button {
     border: none;
+    outline: none;
     background-color: transparent;
     cursor: pointer;
 }
 
 p, h2, h3 {
   @include clearStyles;
+}
+
+button:disabled {
+  background-color: var(--primary-hover) !important;
+  cursor: default;
 }
 
 .title {

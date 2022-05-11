@@ -28,8 +28,12 @@
             border: 1px solid var(--gray-5);
             background-color: var(--white-color);
             font-family: 'Ubuntu';
+            outline: none;
             &::placeholder {
                 color: var(--gray-4);
+            }
+            &.error-field {
+              border-color: var(--red-color);
             }
         }
         &-link {
@@ -42,6 +46,10 @@
             font-size: 14px;
             background-color: var(--primary-color);
             color: var(--white-color);
+            &.disabled {
+              pointer-events: none;
+              background-color: var(--primary-hover);
+            }
         }
     }
 }
