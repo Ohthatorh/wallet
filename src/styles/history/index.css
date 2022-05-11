@@ -187,4 +187,118 @@ button:disabled {
 .header__wrap-item:not(:last-child) {
   margin-right: 25px;
 }
+
+.main__panel {
+  margin-bottom: 50px;
+  padding-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.main__panel-title {
+  margin-bottom: 30px;
+}
+
+.main__panel-number {
+  font-size: 34px;
+}
+
+.main__panel-button {
+  margin-bottom: 30px;
+  padding: 16px 24px 16px 58px;
+  font-size: 16px;
+  font-family: 'Ubuntu';
+  color: var(--white-color);
+  background-color: var(--primary-color);
+  background-image: url("/src/img/arrow-button.svg");
+  background-repeat: no-repeat;
+  background-position: 25px 20px;
+  border-radius: 7px;
+}
+
+.main__panel-balance {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.main__panel-balance span {
+  margin-left: 50px;
+  font-weight: 400;
+}
+
+.main__info {
+  margin-bottom: 50px;
+}
+
+.main__info-chart {
+  padding: 25px 50px;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+}
+
+.main__info-chart-title {
+  margin-bottom: 25px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+}
+
+.main__info-chart:first-child {
+  margin-bottom: 50px;
+}
+
+.main__history {
+  padding: 25px 50px 66px;
+  border-radius: 50px;
+  background-color: var(--gray-7);
+}
+
+.main__history-title {
+  margin-bottom: 25px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+}
+
+.main__history-list .list-titles {
+  border-radius: 15px;
+  background-color: var(--primary-color);
+  font-family: 'Ubuntu';
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--white-color);
+}
+
+.main__history-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 20px 50px;
+  border-bottom: 2px solid rgba(0, 82, 255, 0.1);
+  cursor: pointer;
+}
+
+.main__history-item-text, .main__history-item-title {
+  width: 300px;
+}
+
+.main__history-item-text:nth-child(3), .main__history-item-title:nth-child(3) {
+  width: 150px;
+}
+
+.main__history-item-text {
+  font-size: 16px;
+  color: var(--gray-2);
+}
+
+.main__history-item .adding {
+  color: var(--green-color);
+}
+
+.main__history-item .decrease {
+  color: var(--red-color);
+}
 /*# sourceMappingURL=index.css.map */

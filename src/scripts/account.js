@@ -82,6 +82,11 @@ document.addEventListener("click", async (e) => {
         }
       });
   }
+  if (e.target.className === "chart") {
+    document.location.href = `history.html?${document.location.search.substring(
+      1
+    )}`;
+  }
 });
 
 async function refreshAccount(account) {
@@ -156,7 +161,9 @@ function refreshTable(data) {
       document
         .querySelectorAll(".main__history-item")
         [++i].addEventListener("click", () => {
-          console.log(el);
+          document.location.href = `history.html?${document.location.search.substring(
+            1
+          )}`;
         });
     }
   });
