@@ -104,6 +104,7 @@ async function refreshAccount(account) {
       //     allAccounts.push(transaction.to);
       //   }
       // });
+      res.payload.transactions.reverse();
       document.getElementById("account-number").textContent =
         "№ " + res.payload.account;
       document.getElementById("balance").textContent =
@@ -113,20 +114,56 @@ async function refreshAccount(account) {
     });
 }
 function refreshChart(data) {
-  const chart = new Chart(document.getElementById("bar-chart"), {
+  const dateNow = new Date().getFullYear();
+  const filteredData = getFilteredAmountByDate(data);
+  const yearListElement = document.querySelector(".main__info-chart-year-list");
+  let chart = new Chart(document.getElementById("chart"), {
     type: "bar",
     data: {
-      labels: ["мар", "апр", "май", "июн", "июл", "авг"],
+      labels: getMonthsFromTransactions(filteredData, dateNow),
       datasets: [
         {
-          backgroundColor: ["#116ACC"],
-          data: [3000, 2000, 1000, 502, 402, 112],
+          label: "Сумма в рублях",
+          backgroundColor: ["#116AAC"],
+          data: getAmountsFromTransactions(filteredData, dateNow),
         },
       ],
     },
     options: {
-      plugins: false,
+      legend: { display: false },
     },
+  });
+  Object.keys(filteredData).forEach((date) => {
+    const yearLiElement = document.createElement("li");
+    yearLiElement.classList.add(
+      "main__info-chart-year",
+      `${date == dateNow ? "active" : "none"}`
+    );
+    yearLiElement.textContent = date;
+    yearLiElement.addEventListener("click", (e) => {
+      document
+        .querySelectorAll(".main__info-chart-year")
+        .forEach((el) => el.classList.remove("active"));
+      e.currentTarget.classList.add("active");
+      chart.destroy();
+      chart = new Chart(document.getElementById("chart"), {
+        type: "bar",
+        data: {
+          labels: getMonthsFromTransactions(filteredData, date),
+          datasets: [
+            {
+              label: "Сумма в рублях",
+              backgroundColor: ["#116AAC"],
+              data: getAmountsFromTransactions(filteredData, date),
+            },
+          ],
+        },
+        options: {
+          legend: { display: false },
+        },
+      });
+    });
+    yearListElement.append(yearLiElement);
   });
 }
 function refreshTable(data) {
@@ -134,8 +171,7 @@ function refreshTable(data) {
   for (let key of transactionsList.children) {
     if (!key.classList.contains("list-titles")) key.remove();
   }
-  const reversedData = data.reverse();
-  reversedData.forEach((el, i) => {
+  data.forEach((el, i) => {
     if (i < 10) {
       const item = `
         <li class="main__history-item">
@@ -167,4 +203,73 @@ function refreshTable(data) {
         });
     }
   });
+}
+function getMonthsFromTransactions(arr, year) {
+  let months = [];
+  arr[year].forEach((el, i) => {
+    if (el > 0) {
+      switch (i) {
+        case 0:
+          months.push("Январь");
+          break;
+        case 1:
+          months.push("Февраль");
+          break;
+        case 2:
+          months.push("Март");
+          break;
+        case 3:
+          months.push("Апрель");
+          break;
+        case 4:
+          months.push("Май");
+          break;
+        case 5:
+          months.push("Июнь");
+          break;
+        case 6:
+          months.push("Июль");
+          break;
+        case 7:
+          months.push("Август");
+          break;
+        case 8:
+          months.push("Сентябрь");
+          break;
+        case 9:
+          months.push("Октябрь");
+          break;
+        case 10:
+          months.push("Ноябрь");
+          break;
+        case 11:
+          months.push("Декабрь");
+          break;
+      }
+    }
+  });
+  return months;
+}
+function getAmountsFromTransactions(arr, year) {
+  return arr[year].filter((el) => el > 0);
+}
+function getFilteredAmountByDate(arr) {
+  let amountsByMonths = {};
+  arr.forEach((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        amountsByMonths,
+        transactionDate.getFullYear()
+      )
+    ) {
+      amountsByMonths[transactionDate.getFullYear()] = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ];
+    }
+    amountsByMonths[transactionDate.getFullYear()][
+      transactionDate.getMonth()
+    ] += transaction.amount;
+  });
+  return amountsByMonths;
 }
