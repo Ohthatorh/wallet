@@ -2,13 +2,9 @@
   "name": "wallet",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
-    "dev": "cross-env NODE_ENV=development webpack serve",
-    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js"
+    "parcel-dev": "parcel src/assets/public/*.html",
+    "parcel-build": "parcel src/assets/public/*.html"
   },
   "repository": {
     "type": "git",
@@ -21,15 +17,13 @@
   },
   "homepage": "https://github.com/Ohthatorh/wallet#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.5.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.1.4",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",
+    "parcel": "^2.5.0",
     "prettier": "^2.6.2"
-  },
-  "dependencies": {
-    "navigo": "^8.11.1",
-    "regenerator-runtime": "^0.13.9"
   }
 }

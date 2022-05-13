@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin - Валюта</title>
+    <link rel="stylesheet" href="../../dist/styles/choices.min.css">
+    <link rel="stylesheet" href="../../dist/scripts/choices.js">
+    <script defer type="module" src="./currency/currency.js"></script>
+    <link rel="stylesheet" href="./currency/currency.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header__wrap container">
+        <img id="logo" src="../img/logo.svg" alt="Логотип" class="header__logo">
+        <ul class="header__wrap-list">
+          <li class="header__wrap-item">
+            <button id="atms" class="header__wrap-item-button">
+              Банкоматы
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="accounts" class="header__wrap-item-button">
+              Счета
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button disabled id="currency" class="header__wrap-item-button">
+              Валюта
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="logout" class="header__wrap-item-button">
+              Выйти
+            </button>
+          </li>
+        </ul>
+    </div>
+  </header>
+  <main class="main">
+    <div class="main__wrap container">
+      <h2 class="main__title title">
+        Валютный обмен
+      </h2>
+      <section class="main__columns">
+        <div class="main__left-column">
+          <div class="main__yourcurrency">
+            <h3 class="main__yourcurrency-title title">
+              Ваши валюты
+            </h3>
+            <ul class="main__yourcurrency-list">
+            </ul>
+          </div>
+          <form class="main__exchange">
+            <h3 class="main__exchange-title title">
+              Обмен валюты
+            </h3>
+            <div class="main__exchange-left">
+              <label class="main__exchange-label">
+                Из
+                <select class="js-select" id="selectFrom" name="Из">
+                </select>
+              </label>
+              <label class="main__exchange-label">
+                В
+                <select class="js-select" id="selectTo" name="В">
+                </select>
+              </label>
+              <label class="main__exchange-label">
+                Сумма
+                <input id="amount" type="number" class="main__exchange-input" placeholder="Сумма">
+              </label>
+            </div>
+            <button disabled class="main__exchange-button">
+              Обменять
+            </button>
+          </form>
+        </div>
+        <div class="main__right-column">
+          <h3 class="main__right-column-title title">
+            Изменение курсов в режиме реального времени
+          </h3>
+          <ul class="main__right-column-list">
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin - Просмотр счёта</title>
+    <link rel="stylesheet" href="./account/account.css">
+    <script defer type="module" src="./account/account.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header__wrap container">
+        <img id="logo" src="../img/logo.svg" alt="Логотип" class="header__logo">
+        <ul class="header__wrap-list">
+          <li class="header__wrap-item">
+            <button id="atms" class="header__wrap-item-button">
+              Банкоматы
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="accounts" class="header__wrap-item-button">
+              Счета
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="currency" class="header__wrap-item-button">
+              Валюта
+            </button>
+          </li>
+          <li class="header__wrap-item">
+            <button id="logout" class="header__wrap-item-button">
+              Выйти
+            </button>
+          </li>
+        </ul>
+    </div>
+  </header>
+  <main class="main container">
+    <section class="main__panel">
+      <div class="main__panel-left">
+        <h2 class="main__panel-title title">
+          Просмотр счёта
+        </h2>
+        <p id="account-number" class="main__panel-number"></p>
+      </div>
+      <div class="main__panel-right">
+        <button class="main__panel-button button">
+          Вернуться назад
+        </button>
+        <p class="main__panel-balance">
+          Баланс
+          <span id="balance"></span>
+        </p>
+      </div>
+    </section>
+    <section class="main__info">
+      <form class="main__info-form">
+        <h3 class="main__info-form-title title">
+          Новый перевод
+        </h3>
+        <label class="main__info-form-label">
+          Номер счёта получателя
+          <input id="account-to" type="number" class="main__info-form-input" placeholder="Номер счёта">
+        </label>
+        <label class="main__info-form-label">
+          Сумма перевода
+          <input id="amount" type="number" class="main__info-form-input" placeholder="Сумма">
+        </label>
+        <button disabled class="main__info-form-button">
+          Отправить
+        </button>
+      </form>
+      <div class="main__info-chart">
+        <h3 class="main__info-chart-title title">
+          Динамика баланса
+        </h3>
+        <ul class="main__info-chart-year-list">
+        </ul>
+        <canvas class="chart" id="chart" width="510" height="165"></canvas>
+      </div>
+    </section>
+    <section class="main__history">
+      <h3 class="main__history-title title">
+        История переводов
+      </h3>
+      <ul class="main__history-list">
+        <li class="main__history-item list-titles">
+          <p class="main__history-item-title">
+            Счёт отправителя
+          </p>
+          <p class="main__history-item-title">
+            Счёт получателя
+          </p>
+          <p class="main__history-item-title">
+            Сумма
+          </p>
+          <p class="main__history-item-title">
+            Дата
+          </p>
+        </li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin - Вход</title>
+    <script type="module" defer src="./index/index.js"></script>
+    <link rel="stylesheet" href="./index/index.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header__wrap container">
+      <img src="../img/logo.svg" alt="Логотип" class="header__logo">
+    </div>
+  </header>
+  <main class="main">
+    <h1 class="visually-hidden">Coin</h1>
+    <div class="main__wrap container">
+      <form class="main__form">
+        <h2 class="main__form-title title">
+          Вход в аккаунт
+        </h2>
+        <label class="main__form-label">
+          Логин
+          <input id="login" type="text" class="main__form-input" placeholder="Логин">
+        </label>
+        <label class="main__form-label">
+          Пароль
+          <input id="password" type="password" class="main__form-input" placeholder="Пароль">
+        </label>
+        <a href="#" class="main__form-link disabled">
+          Войти
+        </a>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
