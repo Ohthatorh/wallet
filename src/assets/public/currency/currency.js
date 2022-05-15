@@ -1,6 +1,8 @@
 import { showMessage } from "../../components/showMessage/showMessage.js";
+import "../../../dist/styles/choices.min.css";
 import "../../../dist/scripts/choices.js";
 import "../_config/header/header.js";
+import "../currency/currency.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken")) {

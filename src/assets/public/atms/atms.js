@@ -1,4 +1,5 @@
 import "../_config/header/header.js";
+import "../atms/atms.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken")) {

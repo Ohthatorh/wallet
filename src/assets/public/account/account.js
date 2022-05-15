@@ -144,9 +144,11 @@ function refreshTable(transactions, account) {
       const item = `
         <li class="main__history-item">
           <p class="main__history-item-text">
+          <span>Счёт отправителя</span>
             ${el.from}
           </p>
           <p class="main__history-item-text">
+          <span>Счёт получателя</span>
             ${el.to}
           </p>
           <p class="main__history-item-text ${
@@ -154,9 +156,11 @@ function refreshTable(transactions, account) {
               ? "adding"
               : "decrease"
           }">
+          <span>Сумма</span>
             ${el.amount} ₽
           </p>
           <p class="main__history-item-text">
+          <span>Дата</span>
             ${convertDate(el.date)}
           </p>
         </li>

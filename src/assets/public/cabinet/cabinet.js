@@ -1,5 +1,6 @@
 import { showMessage } from "../../components/showMessage/showMessage.js";
 import { convertDate } from "../../components/convertDate/convertDate.js";
+import "../cabinet/cabinet.css";
 import "../_config/header/header.js";
 
 document.addEventListener("DOMContentLoaded", () => {

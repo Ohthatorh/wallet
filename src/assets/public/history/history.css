@@ -168,6 +168,12 @@ button:disabled {
   font-size: 34px;
 }
 
+@media only screen and (max-width: 768px) {
+  .title {
+    font-size: 24px;
+  }
+}
+
 .skeleton {
   opacity: .7;
   -webkit-animation: skeleton-loading 1s linear infinite alternate;
@@ -225,50 +231,6 @@ button:disabled {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
-}
-
-.header {
-  background-color: var(--primary-color);
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
-          box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
-  padding: 25px 0;
-}
-
-.header__wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.header__wrap-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.header__wrap-item-button {
-  padding: 16px 24px;
-  border-radius: 7px;
-  font-family: 'Ubuntu';
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--primary-color);
-  background-color: var(--white-color);
-}
-
-.header__wrap-item-button:disabled {
-  background-color: var(--primary-hover) !important;
-  cursor: default;
-}
-
-.header__wrap-item:not(:last-child) {
-  margin-right: 25px;
 }
 
 .main__panel {

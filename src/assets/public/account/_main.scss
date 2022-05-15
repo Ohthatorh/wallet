@@ -87,7 +87,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      width: 684px;
+      width: 660px;
       padding: 25px 50px;
       box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
       border-radius: 50px;
@@ -160,6 +160,9 @@
       &-text {
         font-size: 16px;
         color: var(--gray-2);
+        span {
+          display: none;
+        }
       }
       .adding {
         color: var(--green-color);
@@ -170,6 +173,103 @@
     }
     &.skeleton {
       height: 816px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+ .main {
+    &__info {
+      flex-direction: column-reverse;
+      &-chart {
+        width: 100%;
+        margin-bottom: 50px;
+      }
+      &-form {
+        width: 400px;
+        &-label {
+          display: flex;
+          flex-direction: column;
+          align-self: unset;
+        }
+        &-input {
+          margin-top: 10px;
+          margin-left: 0;
+        }
+        &-button {
+          align-self: flex-start;
+          transform: unset;
+        }
+      }
+    }
+    &__history {
+      &-item-text {
+        font-size: 14px;
+      }
+    }
+ }
+}
+
+@media only screen and (max-width: 1024px) {
+  .main {
+    &__history {
+      &-title {
+        margin-bottom: 0;
+      }
+      &-item {
+        padding: 20px 0;
+        flex-direction: column;
+        &-text {
+          display: flex;
+          width: 100%;
+          span {
+            font-weight: bold;
+            margin-right: 20px;
+            display: block;
+          }
+          &:not(:last-child) {
+            margin-bottom: 10px;
+          }
+        }
+        &.list-titles {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .main {
+    &__panel {
+      flex-direction: column;
+      &-left {
+        margin-bottom: 50px;
+      }
+      &-right {
+        align-self: flex-end;
+      }
+      &-number {
+        font-size: 16px;
+      }
+    }
+    &__info {
+      &-form {
+        width: 100%;
+        &-input {
+          width: 100%;
+        }
+      }
+    }
+    &__history {
+      &-item {
+        &-text {
+          display: block;
+          span {
+            margin-bottom: 10px;
+          }
+        }
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 import "regenerator-runtime/runtime";
 import { showMessage } from "../../components/showMessage/showMessage.js";
+import "../_config/header/header.js";
+import "../index/index.css";
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken"))
     document.location.href = "cabinet.html";

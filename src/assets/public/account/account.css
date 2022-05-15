@@ -168,6 +168,12 @@ button:disabled {
   font-size: 34px;
 }
 
+@media only screen and (max-width: 768px) {
+  .title {
+    font-size: 24px;
+  }
+}
+
 .skeleton {
   opacity: .7;
   -webkit-animation: skeleton-loading 1s linear infinite alternate;
@@ -225,50 +231,6 @@ button:disabled {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
-}
-
-.header {
-  background-color: var(--primary-color);
-  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
-          box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
-  padding: 25px 0;
-}
-
-.header__wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.header__wrap-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.header__wrap-item-button {
-  padding: 16px 24px;
-  border-radius: 7px;
-  font-family: 'Ubuntu';
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--primary-color);
-  background-color: var(--white-color);
-}
-
-.header__wrap-item-button:disabled {
-  background-color: var(--primary-hover) !important;
-  cursor: default;
-}
-
-.header__wrap-item:not(:last-child) {
-  margin-right: 25px;
 }
 
 .main__panel {
@@ -409,7 +371,7 @@ button:disabled {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  width: 684px;
+  width: 660px;
   padding: 25px 50px;
   -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
           box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
@@ -504,6 +466,10 @@ button:disabled {
   color: var(--gray-2);
 }
 
+.main__history-item-text span {
+  display: none;
+}
+
 .main__history-item .adding {
   color: var(--green-color);
 }
@@ -514,5 +480,106 @@ button:disabled {
 
 .main__history.skeleton {
   height: 816px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .main__info {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+  }
+  .main__info-chart {
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  .main__info-form {
+    width: 400px;
+  }
+  .main__info-form-label {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -ms-flex-item-align: unset;
+        align-self: unset;
+  }
+  .main__info-form-input {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+  .main__info-form-button {
+    -ms-flex-item-align: start;
+        align-self: flex-start;
+    -webkit-transform: unset;
+            transform: unset;
+  }
+  .main__history-item-text {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .main__history-title {
+    margin-bottom: 0;
+  }
+  .main__history-item {
+    padding: 20px 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .main__history-item-text {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+  }
+  .main__history-item-text span {
+    font-weight: bold;
+    margin-right: 20px;
+    display: block;
+  }
+  .main__history-item-text:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  .main__history-item.list-titles {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .main__panel {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .main__panel-left {
+    margin-bottom: 50px;
+  }
+  .main__panel-right {
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+  }
+  .main__panel-number {
+    font-size: 16px;
+  }
+  .main__info-form {
+    width: 100%;
+  }
+  .main__info-form-input {
+    width: 100%;
+  }
+  .main__history-item-text {
+    display: block;
+  }
+  .main__history-item-text span {
+    margin-bottom: 10px;
+  }
 }
 /*# sourceMappingURL=account.css.map */
