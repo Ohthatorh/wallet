@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin - Кабинет</title>
+    <script type="module" src="./cabinet/cabinet.js"></script>
     <link rel="stylesheet" href="./cabinet/cabinet.css">
-    <script defer type="module" src="./cabinet/cabinet.js"></script>
 </head>
 <body>
   <header class="header">
@@ -43,23 +43,22 @@
           <h2 class="main__wrap-title title">
             Ваши счета
           </h2>
-          <div class="main__wrap-sort">
-            <p class="main__wrap-sort-placeholder">
-              Сортировка
-            </p>
-            <ul class="main__wrap-sort-list">
-              <li class="main__wrap-sort-item">По номеру</li>
-              <li class="main__wrap-sort-item">По балансу</li>
-              <li class="main__wrap-sort-item">По последней транзакции</li>
-            </ul>
-          </div>
+          <div class="main__wrap-sort skeleton"></div>
         </div>
-        <button class="main__wrap-button button">
+        <button class="main__wrap-button button skeleton">
           Создать новый счёт
         </button>
       </div>
       <ul class="main__wrap-list">
-
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
+        <li class="main__wrap-item skeleton"></li>
       </ul>
     </section>
   </main>

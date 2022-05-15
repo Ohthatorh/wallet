@@ -65,6 +65,10 @@
         }
       }
     }
+    &.skeleton {
+      height: 919px;
+      box-shadow: unset;
+    }
   }
   &__exchange {
     display: flex;
@@ -131,6 +135,10 @@
       padding: 13px 16px 10px;
       border: 1px solid var(--gray-5);
       border-radius: 7px;
+    }
+    &.skeleton {
+      height: 258px;
+      box-shadow: unset;
     }
   }
   &__right-column {

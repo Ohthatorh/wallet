@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin - Валюта</title>
     <link rel="stylesheet" href="../../dist/styles/choices.min.css">
-    <link rel="stylesheet" href="../../dist/scripts/choices.js">
     <script defer type="module" src="./currency/currency.js"></script>
     <link rel="stylesheet" href="./currency/currency.css">
 </head>
@@ -45,44 +44,13 @@
       </h2>
       <section class="main__columns">
         <div class="main__left-column">
-          <div class="main__yourcurrency">
-            <h3 class="main__yourcurrency-title title">
-              Ваши валюты
-            </h3>
-            <ul class="main__yourcurrency-list">
-            </ul>
+          <div class="main__yourcurrency skeleton">
           </div>
-          <form class="main__exchange">
-            <h3 class="main__exchange-title title">
-              Обмен валюты
-            </h3>
-            <div class="main__exchange-left">
-              <label class="main__exchange-label">
-                Из
-                <select class="js-select" id="selectFrom" name="Из">
-                </select>
-              </label>
-              <label class="main__exchange-label">
-                В
-                <select class="js-select" id="selectTo" name="В">
-                </select>
-              </label>
-              <label class="main__exchange-label">
-                Сумма
-                <input id="amount" type="number" class="main__exchange-input" placeholder="Сумма">
-              </label>
-            </div>
-            <button disabled class="main__exchange-button">
-              Обменять
-            </button>
+          <form class="main__exchange skeleton">
           </form>
         </div>
-        <div class="main__right-column">
-          <h3 class="main__right-column-title title">
-            Изменение курсов в режиме реального времени
-          </h3>
-          <ul class="main__right-column-list">
-          </ul>
+        <div class="main__right-column skeleton">
+
         </div>
       </section>
     </div>

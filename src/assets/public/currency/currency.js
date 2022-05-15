@@ -4,34 +4,69 @@ import "../_config/header/header.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken")) {
-    getCurrensies();
     refreshCurrensies();
-    getCurrencyFeed();
   } else {
     document.location.href = "index.html";
   }
 });
 
-const amountInputElement = document.querySelector("#amount");
-const exchangeButtonElement = document.querySelector(".main__exchange-button");
-amountInputElement.addEventListener("input", (e) => {
-  if (e.currentTarget.value.length <= 0) {
-    exchangeButtonElement.disabled = true;
-  } else {
-    exchangeButtonElement.disabled = false;
-  }
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.className === "main__exchange-button") {
+function generateBody() {
+  const yourCurrencyElement = document.querySelector(".main__yourcurrency");
+  yourCurrencyElement.classList.remove("skeleton");
+  const yourCurrencyBody = `
+    <h3 class="main__yourcurrency-title title">
+      Ваши валюты
+    </h3>
+    <ul class="main__yourcurrency-list">
+    </ul>
+  `;
+  yourCurrencyElement.insertAdjacentHTML("beforeend", yourCurrencyBody);
+  const exchangeElement = document.querySelector(".main__exchange");
+  exchangeElement.classList.remove("skeleton");
+  const exchangeBody = `
+    <h3 class="main__exchange-title title">
+      Обмен валюты
+    </h3>
+    <div class="main__exchange-left">
+      <label class="main__exchange-label">
+        Из
+        <select class="js-select" id="selectFrom" name="Из">
+        </select>
+      </label>
+      <label class="main__exchange-label">
+        В
+        <select class="js-select" id="selectTo" name="В">
+        </select>
+      </label>
+      <label class="main__exchange-label">
+        Сумма
+        <input id="amount" type="number" class="main__exchange-input" placeholder="Сумма">
+      </label>
+    </div>
+    <button disabled class="main__exchange-button">
+      Обменять
+    </button>
+    `;
+  exchangeElement.insertAdjacentHTML("beforeend", exchangeBody);
+  const amountInputElement = document.querySelector("#amount");
+  const exchangeButtonElement = document.querySelector(
+    ".main__exchange-button"
+  );
+  amountInputElement.addEventListener("input", (e) => {
+    if (e.currentTarget.value.length <= 0) {
+      exchangeButtonElement.disabled = true;
+    } else {
+      exchangeButtonElement.disabled = false;
+    }
+  });
+  exchangeButtonElement.addEventListener("click", (e) => {
     e.preventDefault();
-    currencyBuy();
-  }
-});
+    e.target.classList.add("loading");
+    currencyBuy(exchangeButtonElement, amountInputElement);
+  });
+}
 
 async function refreshCurrensies() {
-  const yourCurrencyList = document.querySelector(".main__yourcurrency-list");
-  yourCurrencyList.innerHTML = "";
   const currensiesUrl = new URL("http://localhost:3000/currencies");
   return await fetch(currensiesUrl, {
     headers: {
@@ -40,15 +75,28 @@ async function refreshCurrensies() {
   })
     .then((res) => res.json())
     .then((res) => {
+      if (
+        document
+          .querySelector(".main__yourcurrency")
+          .classList.contains("skeleton")
+      ) {
+        generateBody();
+        getCurrensies();
+        getCurrencyFeed();
+      }
+      const yourCurrencyList = document.querySelector(
+        ".main__yourcurrency-list"
+      );
+      yourCurrencyList.innerHTML = "";
       for (let key in res.payload) {
         if (res.payload[key].amount !== 0) {
-          const htmlElement = `
+          const liElement = `
             <li>
               <p class="left">${res.payload[key].code}</p>
-              <p class="right">${res.payload[key].amount}</p>
-          </li>
+              <p class="right">${res.payload[key].amount.toFixed(2)}</p>
+            </li>
           `;
-          yourCurrencyList.insertAdjacentHTML("beforeend", htmlElement);
+          yourCurrencyList.insertAdjacentHTML("beforeend", liElement);
         }
       }
     });
@@ -81,6 +129,16 @@ async function getCurrensies() {
 }
 
 async function getCurrencyFeed() {
+  const currencyfeedElement = document.querySelector(".main__right-column");
+  currencyfeedElement.classList.remove("skeleton");
+  const currencyfeedBody = `
+    <h3 class="main__right-column-title title">
+      Изменение курсов в режиме реального времени
+    </h3>
+    <ul class="main__right-column-list">
+    </ul>
+  `;
+  currencyfeedElement.insertAdjacentHTML("beforeend", currencyfeedBody);
   const websocketCurrency = new WebSocket("ws://localhost:3000/currency-feed");
   const currencyList = document.querySelector(".main__right-column-list");
   websocketCurrency.onmessage = function (event) {
@@ -95,7 +153,7 @@ async function getCurrencyFeed() {
   };
 }
 
-async function currencyBuy() {
+async function currencyBuy(exchangeButtonElement, amountInputElement) {
   const currencyBuyUrl = new URL("http://localhost:3000/currency-buy");
   return await fetch(currencyBuyUrl, {
     method: "POST",
@@ -111,6 +169,7 @@ async function currencyBuy() {
   })
     .then((res) => res.json())
     .then((res) => {
+      exchangeButtonElement.classList.remove("loading");
       if (res.payload) {
         amountInputElement.value = "";
         exchangeButtonElement.disabled = true;

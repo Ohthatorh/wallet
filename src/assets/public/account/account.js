@@ -11,77 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.location.href = "index.html";
   }
 });
-const accountTo = document.getElementById("account-to");
-const amount = document.getElementById("amount");
-const transferButtonElement = document.querySelector(".main__info-form-button");
-
-document.querySelectorAll(".main__info-form-input").forEach((input) => {
-  input.addEventListener("input", () => {
-    if (accountTo.value.length && amount.value.length) {
-      transferButtonElement.disabled = false;
-    } else {
-      transferButtonElement.disabled = true;
-    }
-  });
-});
 
 document.addEventListener("click", async (e) => {
   if (e.target.className === "main__panel-button button") {
     document.location.href = "cabinet.html";
   }
-  if (e.target.className === "main__info-form-button") {
-    e.preventDefault();
-    const transferUrl = new URL(`http://localhost:3000/transfer-funds`);
-    return await fetch(transferUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: document.location.search.substring(1),
-        to: accountTo.value,
-        amount: amount.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.payload) {
-          showMessage("Перевод прошёл успешно!", "success");
-          document.getElementById("balance").textContent =
-            res.payload.balance + " ₽";
-          accountTo.value = "";
-          amount.value = "";
-          // refreshChart(res.payload.transactions);
-          refreshTable(res.payload.transactions);
-        }
-        if (res.error) {
-          switch (res.error) {
-            case "Invalid account from":
-              showMessage(
-                "Не указан адрес счёта списания, или этот счёт не принадлежит нам",
-                "error"
-              );
-              break;
-            case "Invalid account to":
-              showMessage(
-                "Не указан счёт зачисления, или этого счёта не существует",
-                "error"
-              );
-              break;
-            case "Invalid amount":
-              showMessage(
-                "Не указана сумма перевода, или она отрицательная",
-                "error"
-              );
-              break;
-            case "Overdraft prevented":
-              showMessage("На счёте не хватает средств", "error");
-              break;
-          }
-        }
-      });
-  }
+
   if (e.target.className === "chart") {
     document.location.href = `history.html?${document.location.search.substring(
       1
@@ -104,18 +39,26 @@ async function refreshAccount(account) {
       //     allAccounts.push(transaction.to);
       //   }
       // });
-      res.payload.transactions.reverse();
-      document.getElementById("account-number").textContent =
-        "№ " + res.payload.account;
-      document.getElementById("balance").textContent =
-        res.payload.balance + " ₽";
-      refreshChart(res.payload.transactions);
-      refreshTable(res.payload.transactions);
+      const reverseTransactions = res.payload.transactions.slice().reverse();
+      refreshChart(reverseTransactions);
+      refreshTable(reverseTransactions, res.payload);
+      refreshFormTransfer();
     });
 }
 function refreshChart(data) {
   const dateNow = new Date().getFullYear();
   const filteredData = getFilteredAmountByDate(data);
+  const chartElement = document.querySelector(".main__info-chart");
+  chartElement.classList.remove("skeleton");
+  const chartBody = `
+    <h3 class="main__info-chart-title title">
+      Динамика баланса
+    </h3>
+    <ul class="main__info-chart-year-list">
+    </ul>
+    <canvas class="chart" id="chart" width="510" height="165"></canvas>
+  `;
+  chartElement.insertAdjacentHTML("beforeend", chartBody);
   const yearListElement = document.querySelector(".main__info-chart-year-list");
   let chart = new Chart(document.getElementById("chart"), {
     type: "bar",
@@ -166,12 +109,37 @@ function refreshChart(data) {
     yearListElement.append(yearLiElement);
   });
 }
-function refreshTable(data) {
-  const transactionsList = document.querySelector(".main__history-list");
-  for (let key of transactionsList.children) {
-    if (!key.classList.contains("list-titles")) key.remove();
+function refreshTable(transactions, account) {
+  const transactionsSection = document.querySelector(".main__history");
+  if (transactionsSection.classList.contains("skeleton")) {
+    transactionsSection.classList.remove("skeleton");
+    const transactionBody = `
+      <h3 class="main__history-title title">
+        История переводов
+      </h3>
+      <ul class="main__history-list">
+        <li class="main__history-item list-titles">
+          <p class="main__history-item-title">
+            Счёт отправителя
+          </p>
+          <p class="main__history-item-title">
+            Счёт получателя
+          </p>
+          <p class="main__history-item-title">
+            Сумма
+          </p>
+          <p class="main__history-item-title">
+            Дата
+          </p>
+        </li>
+      </ul>
+    `;
+    transactionsSection.insertAdjacentHTML("beforeend", transactionBody);
   }
-  data.forEach((el, i) => {
+  const transactionsList = document.querySelector(".main__history-list");
+  const transactionsItems = document.querySelectorAll(".main__history-item");
+  transactionsItems.forEach((el, i) => (i !== 0 ? el.remove() : []));
+  transactions.forEach((el, i) => {
     if (i < 10) {
       const item = `
         <li class="main__history-item">
@@ -203,9 +171,110 @@ function refreshTable(data) {
         });
     }
   });
+  const accountNumberElement = document.getElementById("account-number");
+  const balanceElement = document.getElementById("balance");
+  accountNumberElement.classList.remove("skeleton", "skeleton-title");
+  balanceElement.classList.remove("skeleton", "skeleton-text");
+  accountNumberElement.textContent = `№ ${account.account}`;
+  balanceElement.insertAdjacentHTML(
+    "beforeend",
+    `Баланс: <span>${account.balance} ₽</span>`
+  );
+}
+function refreshFormTransfer() {
+  const formTransferElement = document.querySelector(".main__info-form");
+  formTransferElement.classList.remove("skeleton");
+  const bodyFormTransfer = `
+    <h3 class="main__info-form-title title">
+      Новый перевод
+    </h3>
+    <label class="main__info-form-label">
+      Номер счёта получателя
+      <input id="account-to" type="number" class="main__info-form-input" placeholder="Номер счёта">
+    </label>
+    <label class="main__info-form-label">
+      Сумма перевода
+      <input id="amount" type="number" class="main__info-form-input" placeholder="Сумма">
+    </label>
+    <button disabled class="main__info-form-button">
+      Отправить
+    </button>
+  `;
+  formTransferElement.insertAdjacentHTML("beforeend", bodyFormTransfer);
+  const accountTo = document.getElementById("account-to");
+  const amount = document.getElementById("amount");
+  const transferButtonElement = document.querySelector(
+    ".main__info-form-button"
+  );
+  transferButtonElement.addEventListener("click", async (e) => {
+    e.preventDefault();
+    e.target.classList.add("loading");
+    const transferUrl = new URL(`http://localhost:3000/transfer-funds`);
+    return await fetch(transferUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: document.location.search.substring(1),
+        to: accountTo.value,
+        amount: amount.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        e.target.classList.remove("loading");
+        if (res.payload) {
+          accountTo.value = "";
+          amount.value = "";
+          transferButtonElement.disabled = true;
+          showMessage("Перевод прошёл успешно!", "success");
+          const reverseTransactions = res.payload.transactions
+            .slice()
+            .reverse();
+          refreshTable(reverseTransactions, res.payload);
+        }
+        if (res.error) {
+          switch (res.error) {
+            case "Invalid account from":
+              showMessage(
+                "Не указан адрес счёта списания, или этот счёт не принадлежит нам",
+                "error"
+              );
+              break;
+            case "Invalid account to":
+              showMessage(
+                "Не указан счёт зачисления, или этого счёта не существует",
+                "error"
+              );
+              break;
+            case "Invalid amount":
+              showMessage(
+                "Не указана сумма перевода, или она отрицательная",
+                "error"
+              );
+              break;
+            case "Overdraft prevented":
+              showMessage("На счёте не хватает средств", "error");
+              break;
+          }
+        }
+      });
+  });
+  document.querySelectorAll(".main__info-form-input").forEach((input) => {
+    input.addEventListener("input", () => {
+      if (accountTo.value.length && amount.value.length) {
+        transferButtonElement.disabled = false;
+      } else {
+        transferButtonElement.disabled = true;
+      }
+    });
+  });
 }
 function getMonthsFromTransactions(arr, year) {
   let months = [];
+  if (Object.keys(arr).length === 0) return;
   arr[year].forEach((el, i) => {
     if (el > 0) {
       switch (i) {
@@ -251,6 +320,7 @@ function getMonthsFromTransactions(arr, year) {
   return months;
 }
 function getAmountsFromTransactions(arr, year) {
+  if (Object.keys(arr).length === 0) return;
   return arr[year].filter((el) => el > 0);
 }
 function getFilteredAmountByDate(arr) {

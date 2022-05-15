@@ -71,6 +71,13 @@
           display: block;
         }
       }
+      &.skeleton {
+        border-color: transparent;
+        height: 40px;
+        &::before {
+          background-image: none;
+        }
+      }
     }
     &-panel {
       margin-bottom: 50px;
@@ -129,6 +136,12 @@
       background-repeat: no-repeat;
       background-position: 25px 13px;
       border-radius: 7px;
+      &.skeleton {
+        height: 50px;
+        pointer-events: none;
+        color: transparent;
+        background-image: none;
+      }
     }
     &-list {
       display: flex;
@@ -174,6 +187,10 @@
       }
       &:nth-child(3n) {
         margin-right: 0;
+      }
+      &.skeleton {
+        height: 152px;
+        box-shadow: none;
       }
     }
   }

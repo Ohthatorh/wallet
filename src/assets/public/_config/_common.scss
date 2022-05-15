@@ -83,7 +83,6 @@
        url('../_config/fonts/ubuntu-v19-latin-ext_latin_cyrillic-ext_cyrillic-500.svg#Ubuntu') format('svg'); /* Legacy iOS */
 }
 
-
 body,
 html {
     @include clearStyles;
@@ -138,12 +137,69 @@ p, h2, h3 {
   @include clearStyles;
 }
 
-button:disabled {
-  background-color: var(--primary-hover) !important;
-  cursor: default;
+button {
+  &.loading {
+    position: relative;
+    color: transparent;
+    background-color: var(--primary-hover);
+    background-image: none;
+    pointer-events: none;
+    cursor: default;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 40%;
+      width: 20px;
+      height: 20px;
+      margin: 8px;
+      border-radius: 50%;
+      border: 3px solid var(--white-color);
+      border-color: var(--white-color) transparent var(--white-color) transparent;
+      animation: button-loading 1.2s linear infinite;
+    }
+  }
+  &:disabled {
+    background-color: var(--primary-hover) !important;
+    cursor: default;
+  }
 }
 
 .title {
     font-weight: 700;
     font-size: 34px;
+}
+
+.skeleton {
+  opacity: .7;
+  animation: skeleton-loading 1s linear infinite alternate;
+  &-title {
+    height: 40px;
+  }
+  &-text {
+    height: 24px;
+  }
+  &-title,
+  &-text {
+    width: 100%;
+    border-radius: 7px;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--gray-7);
+  }
+
+  100% {
+    background-color: var(--white-color);
+  }
+}
+@keyframes button-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

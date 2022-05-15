@@ -79,6 +79,9 @@
         border-radius: 7px;
         transform: translateX(28px);
       }
+      &.skeleton {
+        height: 269px;
+      }
     }
     &-chart {
       display: flex;
@@ -116,6 +119,10 @@
           margin-right: 10px;
         }
       }
+      &.skeleton {
+        box-shadow: none;
+        height: 269px;
+      }
     }
   }
   &__history {
@@ -141,6 +148,7 @@
       display: flex;
       padding: 20px 50px;
       border-bottom: 2px solid rgba(0, 82, 255, 0.1);
+      border-radius: 15px;
       cursor: pointer;
       &-text,
       &-title {
@@ -159,6 +167,9 @@
       .decrease {
         color: var(--red-color);
       }
+    }
+    &.skeleton {
+      height: 816px;
     }
   }
 }

@@ -33,5 +33,7 @@ async function init() {
   for (let i = 0; i < coords.length; i++) {
     myCollection.add(new ymaps.Placemark(coords[i]));
   }
+  const mapElement = document.getElementById("map");
+  mapElement.classList.remove("skeleton");
   myMap.geoObjects.add(myCollection);
 }
