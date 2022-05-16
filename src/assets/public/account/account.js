@@ -1,34 +1,37 @@
-import "../_config/header/header.js";
-import { convertDate } from "../../components/convertDate/convertDate.js";
-import "../../../dist/scripts/chart.js";
-import { showMessage } from "../../components/showMessage/showMessage.js";
+import { convertDate } from '../../components/convertDate/convertDate.js'
+import { showMessage } from '../../components/showMessage/showMessage.js'
+import { getFilteredAmountByDate } from '../../components/getFilteredAmountByDate.js'
+import { getMonthsFromTransactions } from '../../components/getMonthsFromTransactions.js'
+import { getAmountsFromTransactions } from '../../components/getAmountsFromTransactions.js'
+import '../../../dist/scripts/chart.js'
+import '../_config/header/header.js'
+import '../account/_account.scss'
 
-document.addEventListener("DOMContentLoaded", () => {
-  localStorage.removeItem("allAccounts");
-  if (localStorage.getItem("bearerToken") && document.location.search) {
-    refreshAccount(document.location.search.substring(1));
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('bearerToken') && document.location.search) {
+    refreshAccount(document.location.search.substring(1))
   } else {
-    document.location.href = "index.html";
+    document.location.href = 'index.html'
   }
-});
+})
 
-document.addEventListener("click", async (e) => {
-  if (e.target.className === "main__panel-button button") {
-    document.location.href = "cabinet.html";
+document.addEventListener('click', async (e) => {
+  if (e.target.className === 'main__panel-button button') {
+    document.location.href = 'cabinet.html'
   }
 
-  if (e.target.className === "chart") {
+  if (e.target.className === 'chart') {
     document.location.href = `history.html?${document.location.search.substring(
       1
-    )}`;
+    )}`
   }
-});
+})
 
 async function refreshAccount(account) {
-  const accountsUrl = new URL(`http://localhost:3000/account/${account}`);
+  const accountsUrl = new URL(`http://localhost:3000/account/${account}`)
   return await fetch(accountsUrl, {
     headers: {
-      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+      Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
     },
   })
     .then((res) => res.json())
@@ -39,17 +42,17 @@ async function refreshAccount(account) {
       //     allAccounts.push(transaction.to);
       //   }
       // });
-      const reverseTransactions = res.payload.transactions.slice().reverse();
-      refreshChart(reverseTransactions);
-      refreshTable(reverseTransactions, res.payload);
-      refreshFormTransfer();
-    });
+      const reverseTransactions = res.payload.transactions.slice().reverse()
+      refreshChart(reverseTransactions)
+      refreshTable(reverseTransactions, res.payload)
+      refreshFormTransfer()
+    })
 }
 function refreshChart(data) {
-  const dateNow = new Date().getFullYear();
-  const filteredData = getFilteredAmountByDate(data);
-  const chartElement = document.querySelector(".main__info-chart");
-  chartElement.classList.remove("skeleton");
+  const dateNow = new Date().getFullYear()
+  const filteredData = getFilteredAmountByDate(data)
+  const chartElement = document.querySelector('.main__info-chart')
+  chartElement.classList.remove('skeleton')
   const chartBody = `
     <h3 class="main__info-chart-title title">
       Динамика баланса
@@ -57,17 +60,17 @@ function refreshChart(data) {
     <ul class="main__info-chart-year-list">
     </ul>
     <canvas class="chart" id="chart" width="510" height="165"></canvas>
-  `;
-  chartElement.insertAdjacentHTML("beforeend", chartBody);
-  const yearListElement = document.querySelector(".main__info-chart-year-list");
-  let chart = new Chart(document.getElementById("chart"), {
-    type: "bar",
+  `
+  chartElement.insertAdjacentHTML('beforeend', chartBody)
+  const yearListElement = document.querySelector('.main__info-chart-year-list')
+  let chart = new Chart(document.getElementById('chart'), {
+    type: 'bar',
     data: {
       labels: getMonthsFromTransactions(filteredData, dateNow),
       datasets: [
         {
-          label: "Сумма в рублях",
-          backgroundColor: ["#116AAC"],
+          label: 'Сумма в рублях',
+          backgroundColor: ['#116AAC'],
           data: getAmountsFromTransactions(filteredData, dateNow),
         },
       ],
@@ -75,28 +78,28 @@ function refreshChart(data) {
     options: {
       legend: { display: false },
     },
-  });
+  })
   Object.keys(filteredData).forEach((date) => {
-    const yearLiElement = document.createElement("li");
+    const yearLiElement = document.createElement('li')
     yearLiElement.classList.add(
-      "main__info-chart-year",
-      `${date == dateNow ? "active" : "none"}`
-    );
-    yearLiElement.textContent = date;
-    yearLiElement.addEventListener("click", (e) => {
+      'main__info-chart-year',
+      `${date == dateNow ? 'active' : 'none'}`
+    )
+    yearLiElement.textContent = date
+    yearLiElement.addEventListener('click', (e) => {
       document
-        .querySelectorAll(".main__info-chart-year")
-        .forEach((el) => el.classList.remove("active"));
-      e.currentTarget.classList.add("active");
-      chart.destroy();
-      chart = new Chart(document.getElementById("chart"), {
-        type: "bar",
+        .querySelectorAll('.main__info-chart-year')
+        .forEach((el) => el.classList.remove('active'))
+      e.currentTarget.classList.add('active')
+      chart.destroy()
+      chart = new Chart(document.getElementById('chart'), {
+        type: 'bar',
         data: {
           labels: getMonthsFromTransactions(filteredData, date),
           datasets: [
             {
-              label: "Сумма в рублях",
-              backgroundColor: ["#116AAC"],
+              label: 'Сумма в рублях',
+              backgroundColor: ['#116AAC'],
               data: getAmountsFromTransactions(filteredData, date),
             },
           ],
@@ -104,15 +107,15 @@ function refreshChart(data) {
         options: {
           legend: { display: false },
         },
-      });
-    });
-    yearListElement.append(yearLiElement);
-  });
+      })
+    })
+    yearListElement.append(yearLiElement)
+  })
 }
 function refreshTable(transactions, account) {
-  const transactionsSection = document.querySelector(".main__history");
-  if (transactionsSection.classList.contains("skeleton")) {
-    transactionsSection.classList.remove("skeleton");
+  const transactionsSection = document.querySelector('.main__history')
+  if (transactionsSection.classList.contains('skeleton')) {
+    transactionsSection.classList.remove('skeleton')
     const transactionBody = `
       <h3 class="main__history-title title">
         История переводов
@@ -133,12 +136,12 @@ function refreshTable(transactions, account) {
           </p>
         </li>
       </ul>
-    `;
-    transactionsSection.insertAdjacentHTML("beforeend", transactionBody);
+    `
+    transactionsSection.insertAdjacentHTML('beforeend', transactionBody)
   }
-  const transactionsList = document.querySelector(".main__history-list");
-  const transactionsItems = document.querySelectorAll(".main__history-item");
-  transactionsItems.forEach((el, i) => (i !== 0 ? el.remove() : []));
+  const transactionsList = document.querySelector('.main__history-list')
+  const transactionsItems = document.querySelectorAll('.main__history-item')
+  transactionsItems.forEach((el, i) => (i !== 0 ? el.remove() : []))
   transactions.forEach((el, i) => {
     if (i < 10) {
       const item = `
@@ -153,8 +156,8 @@ function refreshTable(transactions, account) {
           </p>
           <p class="main__history-item-text ${
             el.to === document.location.search.substring(1)
-              ? "adding"
-              : "decrease"
+              ? 'adding'
+              : 'decrease'
           }">
           <span>Сумма</span>
             ${el.amount} ₽
@@ -164,30 +167,31 @@ function refreshTable(transactions, account) {
             ${convertDate(el.date)}
           </p>
         </li>
-      `;
-      transactionsList.insertAdjacentHTML("beforeend", item);
+      `
+      transactionsList.insertAdjacentHTML('beforeend', item)
       document
-        .querySelectorAll(".main__history-item")
-        [++i].addEventListener("click", () => {
+        .querySelectorAll('.main__history-item')
+        [++i].addEventListener('click', () => {
           document.location.href = `history.html?${document.location.search.substring(
             1
-          )}`;
-        });
+          )}`
+        })
     }
-  });
-  const accountNumberElement = document.getElementById("account-number");
-  const balanceElement = document.getElementById("balance");
-  accountNumberElement.classList.remove("skeleton", "skeleton-title");
-  balanceElement.classList.remove("skeleton", "skeleton-text");
-  accountNumberElement.textContent = `№ ${account.account}`;
+  })
+  const accountNumberElement = document.getElementById('account-number')
+  const balanceElement = document.getElementById('balance')
+  accountNumberElement.classList.remove('skeleton', 'skeleton-title')
+  accountNumberElement.textContent = `№ ${account.account}`
+  balanceElement.innerHTML = ''
+  balanceElement.classList.remove('skeleton', 'skeleton-text')
   balanceElement.insertAdjacentHTML(
-    "beforeend",
+    'beforeend',
     `Баланс: <span>${account.balance} ₽</span>`
-  );
+  )
 }
 function refreshFormTransfer() {
-  const formTransferElement = document.querySelector(".main__info-form");
-  formTransferElement.classList.remove("skeleton");
+  const formTransferElement = document.querySelector('.main__info-form')
+  formTransferElement.classList.remove('skeleton')
   const bodyFormTransfer = `
     <h3 class="main__info-form-title title">
       Новый перевод
@@ -203,22 +207,22 @@ function refreshFormTransfer() {
     <button disabled class="main__info-form-button">
       Отправить
     </button>
-  `;
-  formTransferElement.insertAdjacentHTML("beforeend", bodyFormTransfer);
-  const accountTo = document.getElementById("account-to");
-  const amount = document.getElementById("amount");
+  `
+  formTransferElement.insertAdjacentHTML('beforeend', bodyFormTransfer)
+  const accountTo = document.getElementById('account-to')
+  const amount = document.getElementById('amount')
   const transferButtonElement = document.querySelector(
-    ".main__info-form-button"
-  );
-  transferButtonElement.addEventListener("click", async (e) => {
-    e.preventDefault();
-    e.target.classList.add("loading");
-    const transferUrl = new URL(`http://localhost:3000/transfer-funds`);
+    '.main__info-form-button'
+  )
+  transferButtonElement.addEventListener('click', async (e) => {
+    e.preventDefault()
+    e.target.classList.add('loading')
+    const transferUrl = new URL(`http://localhost:3000/transfer-funds`)
     return await fetch(transferUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
-        "Content-Type": "application/json",
+        Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: document.location.search.substring(1),
@@ -228,122 +232,49 @@ function refreshFormTransfer() {
     })
       .then((res) => res.json())
       .then((res) => {
-        e.target.classList.remove("loading");
+        e.target.classList.remove('loading')
         if (res.payload) {
-          accountTo.value = "";
-          amount.value = "";
-          transferButtonElement.disabled = true;
-          showMessage("Перевод прошёл успешно!", "success");
-          const reverseTransactions = res.payload.transactions
-            .slice()
-            .reverse();
-          refreshTable(reverseTransactions, res.payload);
+          accountTo.value = ''
+          amount.value = ''
+          transferButtonElement.disabled = true
+          showMessage('Перевод прошёл успешно!', 'success')
+          const reverseTransactions = res.payload.transactions.slice().reverse()
+          refreshTable(reverseTransactions, res.payload)
         }
         if (res.error) {
           switch (res.error) {
-            case "Invalid account from":
+            case 'Invalid account from':
               showMessage(
-                "Не указан адрес счёта списания, или этот счёт не принадлежит нам",
-                "error"
-              );
-              break;
-            case "Invalid account to":
+                'Не указан адрес счёта списания, или этот счёт не принадлежит нам',
+                'error'
+              )
+              break
+            case 'Invalid account to':
               showMessage(
-                "Не указан счёт зачисления, или этого счёта не существует",
-                "error"
-              );
-              break;
-            case "Invalid amount":
+                'Не указан счёт зачисления, или этого счёта не существует',
+                'error'
+              )
+              break
+            case 'Invalid amount':
               showMessage(
-                "Не указана сумма перевода, или она отрицательная",
-                "error"
-              );
-              break;
-            case "Overdraft prevented":
-              showMessage("На счёте не хватает средств", "error");
-              break;
+                'Не указана сумма перевода, или она отрицательная',
+                'error'
+              )
+              break
+            case 'Overdraft prevented':
+              showMessage('На счёте не хватает средств', 'error')
+              break
           }
         }
-      });
-  });
-  document.querySelectorAll(".main__info-form-input").forEach((input) => {
-    input.addEventListener("input", () => {
+      })
+  })
+  document.querySelectorAll('.main__info-form-input').forEach((input) => {
+    input.addEventListener('input', () => {
       if (accountTo.value.length && amount.value.length) {
-        transferButtonElement.disabled = false;
+        transferButtonElement.disabled = false
       } else {
-        transferButtonElement.disabled = true;
+        transferButtonElement.disabled = true
       }
-    });
-  });
-}
-function getMonthsFromTransactions(arr, year) {
-  let months = [];
-  if (Object.keys(arr).length === 0) return;
-  arr[year].forEach((el, i) => {
-    if (el > 0) {
-      switch (i) {
-        case 0:
-          months.push("Январь");
-          break;
-        case 1:
-          months.push("Февраль");
-          break;
-        case 2:
-          months.push("Март");
-          break;
-        case 3:
-          months.push("Апрель");
-          break;
-        case 4:
-          months.push("Май");
-          break;
-        case 5:
-          months.push("Июнь");
-          break;
-        case 6:
-          months.push("Июль");
-          break;
-        case 7:
-          months.push("Август");
-          break;
-        case 8:
-          months.push("Сентябрь");
-          break;
-        case 9:
-          months.push("Октябрь");
-          break;
-        case 10:
-          months.push("Ноябрь");
-          break;
-        case 11:
-          months.push("Декабрь");
-          break;
-      }
-    }
-  });
-  return months;
-}
-function getAmountsFromTransactions(arr, year) {
-  if (Object.keys(arr).length === 0) return;
-  return arr[year].filter((el) => el > 0);
-}
-function getFilteredAmountByDate(arr) {
-  let amountsByMonths = {};
-  arr.forEach((transaction) => {
-    const transactionDate = new Date(transaction.date);
-    if (
-      !Object.prototype.hasOwnProperty.call(
-        amountsByMonths,
-        transactionDate.getFullYear()
-      )
-    ) {
-      amountsByMonths[transactionDate.getFullYear()] = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      ];
-    }
-    amountsByMonths[transactionDate.getFullYear()][
-      transactionDate.getMonth()
-    ] += transaction.amount;
-  });
-  return amountsByMonths;
+    })
+  })
 }

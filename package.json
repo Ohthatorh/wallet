@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "parcel-dev": "parcel serve src/assets/public/*.html",
-    "parcel-build": "parcel src/assets/public/*.html"
+    "dev": "parcel serve src/assets/public/*.html",
+    "build": "parcel build src/assets/public/*.html"
   },
   "repository": {
     "type": "git",

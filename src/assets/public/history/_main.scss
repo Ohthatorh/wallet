@@ -45,6 +45,10 @@
       &:first-child {
         margin-bottom: 50px;
       }
+      &.skeleton {
+        box-shadow: unset;
+        height: 280px;
+      }
     }
   }
   &__history {

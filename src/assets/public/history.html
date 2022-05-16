@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin - История баланса</title>
-    <link rel="stylesheet" href="./history/history.css">
     <script defer type="module" src="./history/history.js"></script>
 </head>
 <body>
@@ -45,54 +44,24 @@
     <section class="main__panel">
       <div class="main__panel-left">
         <h2 class="main__panel-title title">
-          История баланса
+          Просмотр счёта
         </h2>
-        <p id="account-number" class="main__panel-number"></p>
+        <p id="account-number" class="main__panel-number skeleton skeleton-text"></p>
       </div>
       <div class="main__panel-right">
         <button class="main__panel-button button">
           Вернуться назад
         </button>
-        <p class="main__panel-balance">
-          Баланс
-          <span id="balance"></span>
-        </p>
+        <p id="balance" class="main__panel-balance skeleton skeleton-text"></p>
       </div>
     </section>
     <section class="main__info">
-      <div class="main__info-chart">
-        <h3 class="main__info-chart-title title">
-          Динамика баланса
-        </h3>
-        <canvas id="bar-chart-dynamic" width="1000" height="288"></canvas>
+      <div class="main__info-chart chart-dynamic skeleton">
       </div>
-      <div class="main__info-chart">
-        <h3 class="main__info-chart-title title">
-          Соотношение входящих исходящих транзакций
-        </h3>
-        <canvas id="bar-chart-transactions" width="1000" height="288"></canvas>
+      <div class="main__info-chart chart-transaction skeleton">
       </div>
     </section>
-    <section class="main__history">
-      <h3 class="main__history-title title">
-        История переводов
-      </h3>
-      <ul class="main__history-list">
-        <li class="main__history-item list-titles">
-          <p class="main__history-item-title">
-            Счёт отправителя
-          </p>
-          <p class="main__history-item-title">
-            Счёт получателя
-          </p>
-          <p class="main__history-item-title">
-            Сумма
-          </p>
-          <p class="main__history-item-title">
-            Дата
-          </p>
-        </li>
-      </ul>
+    <section class="main__history skeleton">
     </section>
   </main>
 </body>
