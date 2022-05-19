@@ -1,76 +1,76 @@
-import '../_config/header/header.js'
-import { convertDate } from '../../components/convertDate/convertDate.js'
-import { getFilteredAmountByDate } from '../../components/getFilteredAmountByDate.js'
-import { getMonthsFromTransactions } from '../../components/getMonthsFromTransactions.js'
-import { getAmountsFromTransactions } from '../../components/getAmountsFromTransactions.js'
-import '../../../dist/scripts/chart.js'
-import '../history/_history.scss'
+import "../_config/header/header.js";
+import { convertDate } from "../../components/convertDate/convertDate.js";
+import { getFilteredAmountByDate } from "../../components/getFilteredAmountByDate.js";
+import { getMonthsFromTransactions } from "../../components/getMonthsFromTransactions.js";
+import { getAmountsFromTransactions } from "../../components/getAmountsFromTransactions.js";
+import "../../../dist/scripts/chart.js";
+import "../history/_history.scss";
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('bearerToken') && document.location.search) {
-    refreshAccount(document.location.search.substring(1))
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("bearerToken") && document.location.search) {
+    refreshAccount(document.location.search.substring(1));
   } else {
-    document.location.href = 'index.html'
+    document.location.href = "index.html";
   }
-})
+});
 
-document.addEventListener('click', (e) => {
-  if (e.target.className === 'main__panel-button button') {
+document.addEventListener("click", (e) => {
+  if (e.target.className === "main__panel-button button") {
     document.location.href = `account.html?${document.location.search.substring(
       1
-    )}`
+    )}`;
   }
-})
+});
 
 async function refreshAccount(account) {
-  const accountsUrl = new URL(`http://localhost:3000/account/${account}`)
+  const accountsUrl = new URL(`http://localhost:3000/account/${account}`);
   return await fetch(accountsUrl, {
     headers: {
-      Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
+      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
     },
   })
     .then((res) => res.json())
     .then((res) => {
-      const reverseTransactions = res.payload.transactions.slice().reverse()
-      refreshCharts(reverseTransactions)
-      refreshTable(reverseTransactions, res.payload)
-    })
+      const reverseTransactions = res.payload.transactions.slice().reverse();
+      refreshCharts(reverseTransactions);
+      refreshTable(reverseTransactions, res.payload);
+    });
 }
 
 function refreshCharts(data) {
-  const dateNow = new Date().getFullYear()
-  const filteredData = getFilteredAmountByDate(data)
-  const chartDynamicElement = document.querySelector('.chart-dynamic')
-  const chartTransactionsElement = document.querySelector('.chart-transaction')
-  chartDynamicElement.classList.remove('skeleton')
-  chartTransactionsElement.classList.remove('skeleton')
+  const dateNow = new Date().getFullYear();
+  const filteredData = getFilteredAmountByDate(data);
+  const chartDynamicElement = document.querySelector(".chart-dynamic");
+  const chartTransactionsElement = document.querySelector(".chart-transaction");
+  chartDynamicElement.classList.remove("skeleton");
+  chartTransactionsElement.classList.remove("skeleton");
   const chartBody = (chart) => {
     return `
       <h3 class="main__info-chart-title title">
         ${
-          chart === 'dynamic'
-            ? 'Динамика баланса'
-            : 'Соотношение входящих исходящих транзакций'
+          chart === "dynamic"
+            ? "Динамика баланса"
+            : "Соотношение входящих исходящих транзакций"
         }
       </h3>
       <canvas class="chart" id="${
-        chart === 'dynamic' ? 'bar-chart-dynamic' : 'bar-chart-transactions'
+        chart === "dynamic" ? "bar-chart-dynamic" : "bar-chart-transactions"
       }" width="510" height="165"></canvas>
-    `
-  }
-  chartDynamicElement.insertAdjacentHTML('beforeend', chartBody('dynamic'))
+    `;
+  };
+  chartDynamicElement.insertAdjacentHTML("beforeend", chartBody("dynamic"));
   chartTransactionsElement.insertAdjacentHTML(
-    'beforeend',
-    chartBody('transactions')
-  )
-  const chartDynamic = new Chart(document.getElementById('bar-chart-dynamic'), {
-    type: 'bar',
+    "beforeend",
+    chartBody("transactions")
+  );
+  const chartDynamic = new Chart(document.getElementById("bar-chart-dynamic"), {
+    type: "bar",
     data: {
       labels: getMonthsFromTransactions(filteredData, dateNow),
       datasets: [
         {
-          label: 'Сумма в рублях',
-          backgroundColor: ['#116AAC'],
+          label: "Сумма в рублях",
+          backgroundColor: ["#116AAC"],
           data: getAmountsFromTransactions(filteredData, dateNow),
         },
       ],
@@ -78,17 +78,17 @@ function refreshCharts(data) {
     options: {
       legend: { display: false },
     },
-  })
+  });
   const chartTransactions = new Chart(
-    document.getElementById('bar-chart-transactions'),
+    document.getElementById("bar-chart-transactions"),
     {
-      type: 'bar',
+      type: "bar",
       data: {
         labels: getMonthsFromTransactions(filteredData, dateNow),
         datasets: [
           {
-            label: 'Сумма в рублях',
-            backgroundColor: ['#116AAC'],
+            label: "Сумма в рублях",
+            backgroundColor: ["#116AAC"],
             data: getAmountsFromTransactions(filteredData, dateNow),
           },
         ],
@@ -97,13 +97,13 @@ function refreshCharts(data) {
         legend: { display: false },
       },
     }
-  )
+  );
 }
 
 function refreshTable(transactions, account) {
-  const transactionsSection = document.querySelector('.main__history')
-  if (transactionsSection.classList.contains('skeleton')) {
-    transactionsSection.classList.remove('skeleton')
+  const transactionsSection = document.querySelector(".main__history");
+  if (transactionsSection.classList.contains("skeleton")) {
+    transactionsSection.classList.remove("skeleton");
     const transactionBody = `
       <h3 class="main__history-title title">
         История переводов
@@ -124,12 +124,12 @@ function refreshTable(transactions, account) {
           </p>
         </li>
       </ul>
-    `
-    transactionsSection.insertAdjacentHTML('beforeend', transactionBody)
+    `;
+    transactionsSection.insertAdjacentHTML("beforeend", transactionBody);
   }
-  const transactionsList = document.querySelector('.main__history-list')
-  const transactionsItems = document.querySelectorAll('.main__history-item')
-  transactionsItems.forEach((el, i) => (i !== 0 ? el.remove() : []))
+  const transactionsList = document.querySelector(".main__history-list");
+  const transactionsItems = document.querySelectorAll(".main__history-item");
+  transactionsItems.forEach((el, i) => (i !== 0 ? el.remove() : []));
   transactions.forEach((el, i) => {
     if (i < 5) {
       const item = `
@@ -144,8 +144,8 @@ function refreshTable(transactions, account) {
           </p>
           <p class="main__history-item-text ${
             el.to === document.location.search.substring(1)
-              ? 'adding'
-              : 'decrease'
+              ? "adding"
+              : "decrease"
           }">
           <span>Сумма</span>
             ${el.amount} ₽
@@ -155,18 +155,18 @@ function refreshTable(transactions, account) {
             ${convertDate(el.date)}
           </p>
         </li>
-      `
-      transactionsList.insertAdjacentHTML('beforeend', item)
+      `;
+      transactionsList.insertAdjacentHTML("beforeend", item);
     }
-  })
-  const accountNumberElement = document.getElementById('account-number')
-  const balanceElement = document.getElementById('balance')
-  accountNumberElement.classList.remove('skeleton', 'skeleton-title')
-  accountNumberElement.textContent = `№ ${account.account}`
-  balanceElement.innerHTML = ''
-  balanceElement.classList.remove('skeleton', 'skeleton-text')
+  });
+  const accountNumberElement = document.getElementById("account-number");
+  const balanceElement = document.getElementById("balance");
+  accountNumberElement.classList.remove("skeleton", "skeleton-title");
+  accountNumberElement.textContent = `№ ${account.account}`;
+  balanceElement.innerHTML = "";
+  balanceElement.classList.remove("skeleton", "skeleton-text");
   balanceElement.insertAdjacentHTML(
-    'beforeend',
+    "beforeend",
     `Баланс: <span>${account.balance} ₽</span>`
-  )
+  );
 }

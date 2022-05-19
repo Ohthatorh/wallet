@@ -1,30 +1,30 @@
-import { showMessage } from '../../components/showMessage/showMessage.js'
-import '../../../dist/styles/choices.min.css'
-import '../../../dist/scripts/choices.js'
-import '../_config/header/header.js'
-import '../currency/_currency.scss'
+import { showMessage } from "../../components/showMessage/showMessage.js";
+import "../../../dist/styles/choices.min.css";
+import "../../../dist/scripts/choices.js";
+import "../_config/header/header.js";
+import "../currency/_currency.scss";
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('bearerToken')) {
-    refreshCurrensies()
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("bearerToken")) {
+    refreshCurrensies();
   } else {
-    document.location.href = 'index.html'
+    document.location.href = "index.html";
   }
-})
+});
 
 function generateBody() {
-  const yourCurrencyElement = document.querySelector('.main__yourcurrency')
-  yourCurrencyElement.classList.remove('skeleton')
+  const yourCurrencyElement = document.querySelector(".main__yourcurrency");
+  yourCurrencyElement.classList.remove("skeleton");
   const yourCurrencyBody = `
     <h3 class="main__yourcurrency-title title">
       Ваши валюты
     </h3>
     <ul class="main__yourcurrency-list">
     </ul>
-  `
-  yourCurrencyElement.insertAdjacentHTML('beforeend', yourCurrencyBody)
-  const exchangeElement = document.querySelector('.main__exchange')
-  exchangeElement.classList.remove('skeleton')
+  `;
+  yourCurrencyElement.insertAdjacentHTML("beforeend", yourCurrencyBody);
+  const exchangeElement = document.querySelector(".main__exchange");
+  exchangeElement.classList.remove("skeleton");
   const exchangeBody = `
     <h3 class="main__exchange-title title">
       Обмен валюты
@@ -48,46 +48,48 @@ function generateBody() {
     <button disabled class="main__exchange-button">
       Обменять
     </button>
-    `
-  exchangeElement.insertAdjacentHTML('beforeend', exchangeBody)
-  const amountInputElement = document.querySelector('#amount')
-  const exchangeButtonElement = document.querySelector('.main__exchange-button')
-  amountInputElement.addEventListener('input', (e) => {
+    `;
+  exchangeElement.insertAdjacentHTML("beforeend", exchangeBody);
+  const amountInputElement = document.querySelector("#amount");
+  const exchangeButtonElement = document.querySelector(
+    ".main__exchange-button"
+  );
+  amountInputElement.addEventListener("input", (e) => {
     if (e.currentTarget.value.length <= 0) {
-      exchangeButtonElement.disabled = true
+      exchangeButtonElement.disabled = true;
     } else {
-      exchangeButtonElement.disabled = false
+      exchangeButtonElement.disabled = false;
     }
-  })
-  exchangeButtonElement.addEventListener('click', (e) => {
-    e.preventDefault()
-    e.target.classList.add('loading')
-    currencyBuy(exchangeButtonElement, amountInputElement)
-  })
+  });
+  exchangeButtonElement.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.target.classList.add("loading");
+    currencyBuy(exchangeButtonElement, amountInputElement);
+  });
 }
 
 async function refreshCurrensies() {
-  const currensiesUrl = new URL('http://localhost:3000/currencies')
+  const currensiesUrl = new URL("http://localhost:3000/currencies");
   return await fetch(currensiesUrl, {
     headers: {
-      Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
+      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
     },
   })
     .then((res) => res.json())
     .then((res) => {
       if (
         document
-          .querySelector('.main__yourcurrency')
-          .classList.contains('skeleton')
+          .querySelector(".main__yourcurrency")
+          .classList.contains("skeleton")
       ) {
-        generateBody()
-        getCurrensies()
-        getCurrencyFeed()
+        generateBody();
+        getCurrensies();
+        getCurrencyFeed();
       }
       const yourCurrencyList = document.querySelector(
-        '.main__yourcurrency-list'
-      )
-      yourCurrencyList.innerHTML = ''
+        ".main__yourcurrency-list"
+      );
+      yourCurrencyList.innerHTML = "";
       for (let key in res.payload) {
         if (res.payload[key].amount !== 0) {
           const liElement = `
@@ -95,108 +97,108 @@ async function refreshCurrensies() {
               <p class="left">${res.payload[key].code}</p>
               <p class="right">${res.payload[key].amount.toFixed(2)}</p>
             </li>
-          `
-          yourCurrencyList.insertAdjacentHTML('beforeend', liElement)
+          `;
+          yourCurrencyList.insertAdjacentHTML("beforeend", liElement);
         }
       }
-    })
+    });
 }
 
 async function getCurrensies() {
-  const allCurrensiesUrl = new URL('http://localhost:3000/all-currencies')
+  const allCurrensiesUrl = new URL("http://localhost:3000/all-currencies");
   return await fetch(allCurrensiesUrl, {
     headers: {
-      Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
+      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
     },
   })
     .then((res) => res.json())
     .then((res) => {
-      const selectElements = document.querySelectorAll('.js-select')
+      const selectElements = document.querySelectorAll(".js-select");
       const selectOptions = {
         choices: res.payload.map((el) => {
           return {
             value: el,
             label: el,
-          }
+          };
         }),
         allowHTML: false,
         searchEnabled: false,
         shouldSort: false,
-        itemSelectText: '',
-      }
-      selectElements.forEach((el) => new Choices(el, selectOptions))
-    })
+        itemSelectText: "",
+      };
+      selectElements.forEach((el) => new Choices(el, selectOptions));
+    });
 }
 
 async function getCurrencyFeed() {
-  const currencyfeedElement = document.querySelector('.main__right-column')
-  currencyfeedElement.classList.remove('skeleton')
+  const currencyfeedElement = document.querySelector(".main__right-column");
+  currencyfeedElement.classList.remove("skeleton");
   const currencyfeedBody = `
     <h3 class="main__right-column-title title">
       Изменение курсов в режиме реального времени
     </h3>
     <ul class="main__right-column-list">
     </ul>
-  `
-  currencyfeedElement.insertAdjacentHTML('beforeend', currencyfeedBody)
-  const websocketCurrency = new WebSocket('ws://localhost:3000/currency-feed')
-  const currencyList = document.querySelector('.main__right-column-list')
+  `;
+  currencyfeedElement.insertAdjacentHTML("beforeend", currencyfeedBody);
+  const websocketCurrency = new WebSocket("ws://localhost:3000/currency-feed");
+  const currencyList = document.querySelector(".main__right-column-list");
   websocketCurrency.onmessage = function (event) {
-    const message = JSON.parse(event.data)
+    const message = JSON.parse(event.data);
     const currencyElement = `
-      <li class="${message.change === 1 ? 'up' : 'down'}">
+      <li class="${message.change === 1 ? "up" : "down"}">
         <p class="left">${message.from}/${message.to}</p>
         <p class="right">${message.rate}</p>
       </li>
-    `
-    currencyList.insertAdjacentHTML('afterbegin', currencyElement)
-  }
+    `;
+    currencyList.insertAdjacentHTML("afterbegin", currencyElement);
+  };
 }
 
 async function currencyBuy(exchangeButtonElement, amountInputElement) {
-  const currencyBuyUrl = new URL('http://localhost:3000/currency-buy')
+  const currencyBuyUrl = new URL("http://localhost:3000/currency-buy");
   return await fetch(currencyBuyUrl, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Basic ${localStorage.getItem('bearerToken')}`,
-      'Content-Type': 'application/json',
+      Authorization: `Basic ${localStorage.getItem("bearerToken")}`,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: document.querySelector('#selectFrom').value,
-      to: document.querySelector('#selectTo').value,
+      from: document.querySelector("#selectFrom").value,
+      to: document.querySelector("#selectTo").value,
       amount: amountInputElement.value,
     }),
   })
     .then((res) => res.json())
     .then((res) => {
-      exchangeButtonElement.classList.remove('loading')
+      exchangeButtonElement.classList.remove("loading");
       if (res.payload) {
-        amountInputElement.value = ''
-        exchangeButtonElement.disabled = true
-        showMessage('Обмен прошёл успешно!', 'success')
-        refreshCurrensies()
+        amountInputElement.value = "";
+        exchangeButtonElement.disabled = true;
+        showMessage("Обмен прошёл успешно!", "success");
+        refreshCurrensies();
       }
       if (res.error) {
         switch (res.error) {
-          case 'Unknown currency code':
+          case "Unknown currency code":
             showMessage(
-              'Неверный валютный код, обратитесь к администратору',
-              'error'
-            )
-            break
-          case 'Not enough currency':
-            showMessage('На валютном счёте списания нет средств', 'error')
-            break
-          case 'Invalid amount':
+              "Неверный валютный код, обратитесь к администратору",
+              "error"
+            );
+            break;
+          case "Not enough currency":
+            showMessage("На валютном счёте списания нет средств", "error");
+            break;
+          case "Invalid amount":
             showMessage(
-              'Не указана сумма перевода, или она отрицательная',
-              'error'
-            )
-            break
-          case 'Overdraft prevented':
-            showMessage('На счёте не хватает средств', 'error')
-            break
+              "Не указана сумма перевода, или она отрицательная",
+              "error"
+            );
+            break;
+          case "Overdraft prevented":
+            showMessage("На счёте не хватает средств", "error");
+            break;
         }
       }
-    })
+    });
 }

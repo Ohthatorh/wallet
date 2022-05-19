@@ -1,7 +1,7 @@
 export const getFilteredAmountByDate = (arr) => {
-  let amountsByMonths = {}
+  let amountsByMonths = {};
   arr.forEach((transaction) => {
-    const transactionDate = new Date(transaction.date)
+    const transactionDate = new Date(transaction.date);
     if (
       !Object.prototype.hasOwnProperty.call(
         amountsByMonths,
@@ -10,11 +10,11 @@ export const getFilteredAmountByDate = (arr) => {
     ) {
       amountsByMonths[transactionDate.getFullYear()] = [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      ]
+      ];
     }
     amountsByMonths[transactionDate.getFullYear()][
       transactionDate.getMonth()
-    ] += transaction.amount
-  })
-  return amountsByMonths
-}
+    ] += transaction.amount;
+  });
+  return amountsByMonths;
+};
