@@ -1,4 +1,4 @@
-export const getFilteredAmountByDate = (arr) => {
+export const getFilteredAmountByDate = (arr, account) => {
   let amountsByMonths = {};
   arr.forEach((transaction) => {
     const transactionDate = new Date(transaction.date);
@@ -9,12 +9,32 @@ export const getFilteredAmountByDate = (arr) => {
       )
     ) {
       amountsByMonths[transactionDate.getFullYear()] = [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
+        { adding: 0, decrease: 0, amount: 0 },
       ];
     }
-    amountsByMonths[transactionDate.getFullYear()][
-      transactionDate.getMonth()
-    ] += transaction.amount;
+    if (transaction.to == account) {
+      amountsByMonths[transactionDate.getFullYear()][
+        transactionDate.getMonth()
+      ]["adding"] += transaction.amount;
+      amountsByMonths[transactionDate.getFullYear()][
+        transactionDate.getMonth()
+      ]["amount"] += transaction.amount;
+    } else {
+      amountsByMonths[transactionDate.getFullYear()][
+        transactionDate.getMonth()
+      ]["decrease"] += transaction.amount;
+    }
   });
   return amountsByMonths;
 };

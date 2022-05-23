@@ -11,6 +11,8 @@
       font-size: 34px;
     }
     &-button {
+      display: block;
+      margin-left: auto;
       margin-bottom: 30px;
       padding: 16px 24px 16px 58px;
       font-size: 16px;
@@ -26,7 +28,7 @@
       font-size: 20px;
       font-weight: 700;
       span {
-        margin-left: 50px;
+        margin-left: 20px;
         font-weight: 400;
       }
     }
@@ -74,6 +76,7 @@
         display: flex;
         padding: 20px 50px;
         border-bottom: 2px solid rgba(0, 82, 255, 0.1);
+        border-radius: 15px;
         cursor: pointer;
         &-text,
         &-title {
@@ -85,6 +88,9 @@
         &-text {
           font-size: 16px;
           color: var(--gray-2);
+          span {
+            display: none;
+          }
         }
         .adding {
           color: var(--green-color);
@@ -95,3 +101,74 @@
       }
   }
 }
+
+@media only screen and (max-width: 1366px) {
+  .main {
+     &__history {
+       &-item-text {
+         font-size: 14px;
+       }
+     }
+  }
+ }
+
+ @media only screen and (max-width: 1024px) {
+   .main {
+     &__panel {
+      &-number {
+        font-size: 24px;
+      }
+     }
+     &__history {
+       &-title {
+         margin-bottom: 0;
+       }
+       &-item {
+         padding: 20px 0;
+         flex-direction: column;
+         &-text {
+           display: flex;
+           width: 100%;
+           span {
+             font-weight: bold;
+             margin-right: 20px;
+             display: block;
+           }
+           &:not(:last-child) {
+             margin-bottom: 10px;
+           }
+         }
+         &.list-titles {
+           display: none;
+         }
+       }
+     }
+   }
+ }
+
+ @media only screen and (max-width: 768px) {
+   .main {
+     &__panel {
+       flex-direction: column;
+       &-left {
+         margin-bottom: 50px;
+       }
+       &-right {
+         align-self: flex-end;
+       }
+       &-number {
+         font-size: 16px;
+       }
+     }
+     &__history {
+       &-item {
+         &-text {
+           display: block;
+           span {
+             margin-bottom: 10px;
+           }
+         }
+       }
+     }
+   }
+ }

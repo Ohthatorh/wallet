@@ -2,7 +2,7 @@ export const getMonthsFromTransactions = (arr, year) => {
   let months = [];
   if (Object.keys(arr).length === 0) return;
   arr[year].forEach((el, i) => {
-    if (el > 0) {
+    if (el.amount > 0) {
       switch (i) {
         case 0:
           months.push("Январь");

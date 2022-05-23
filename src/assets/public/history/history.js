@@ -1,10 +1,10 @@
+import "../history/_history.scss";
 import "../_config/header/header.js";
 import { convertDate } from "../../components/convertDate/convertDate.js";
 import { getFilteredAmountByDate } from "../../components/getFilteredAmountByDate.js";
 import { getMonthsFromTransactions } from "../../components/getMonthsFromTransactions.js";
 import { getAmountsFromTransactions } from "../../components/getAmountsFromTransactions.js";
 import "../../../dist/scripts/chart.js";
-import "../history/_history.scss";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken") && document.location.search) {
@@ -38,8 +38,11 @@ async function refreshAccount(account) {
 }
 
 function refreshCharts(data) {
-  const dateNow = new Date().getFullYear();
-  const filteredData = getFilteredAmountByDate(data);
+  const yearNow = new Date().getFullYear();
+  const filteredData = getFilteredAmountByDate(
+    data,
+    document.location.search.substring(1)
+  );
   const chartDynamicElement = document.querySelector(".chart-dynamic");
   const chartTransactionsElement = document.querySelector(".chart-transaction");
   chartDynamicElement.classList.remove("skeleton");
@@ -58,20 +61,23 @@ function refreshCharts(data) {
       }" width="510" height="165"></canvas>
     `;
   };
-  chartDynamicElement.insertAdjacentHTML("beforeend", chartBody("dynamic"));
+  chartDynamicElement.insertAdjacentHTML(
+    "beforeend",
+    chartBody("dynamic", filteredData)
+  );
   chartTransactionsElement.insertAdjacentHTML(
     "beforeend",
-    chartBody("transactions")
+    chartBody("transactions", filteredData)
   );
   const chartDynamic = new Chart(document.getElementById("bar-chart-dynamic"), {
     type: "bar",
     data: {
-      labels: getMonthsFromTransactions(filteredData, dateNow),
+      labels: getMonthsFromTransactions(filteredData, yearNow),
       datasets: [
         {
           label: "Сумма в рублях",
           backgroundColor: ["#116AAC"],
-          data: getAmountsFromTransactions(filteredData, dateNow),
+          data: getAmountsFromTransactions(filteredData, yearNow),
         },
       ],
     },
@@ -84,12 +90,12 @@ function refreshCharts(data) {
     {
       type: "bar",
       data: {
-        labels: getMonthsFromTransactions(filteredData, dateNow),
+        labels: getMonthsFromTransactions(filteredData, yearNow),
         datasets: [
           {
             label: "Сумма в рублях",
-            backgroundColor: ["#116AAC"],
-            data: getAmountsFromTransactions(filteredData, dateNow),
+            backgroundColor: ["red", "green"],
+            data: [[20, 200], 200],
           },
         ],
       },
@@ -98,6 +104,7 @@ function refreshCharts(data) {
       },
     }
   );
+  console.log(chartTransactions);
 }
 
 function refreshTable(transactions, account) {

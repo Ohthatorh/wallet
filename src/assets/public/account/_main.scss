@@ -11,6 +11,8 @@
         font-size: 34px;
       }
       &-button {
+        display: block;
+        margin-left: auto;
         margin-bottom: 30px;
         padding: 16px 24px 16px 58px;
         font-size: 16px;
@@ -26,7 +28,7 @@
         font-size: 20px;
         font-weight: 700;
         span {
-          margin-left: 50px;
+          margin-left: 20px;
           font-weight: 400;
         }
       }
@@ -236,6 +238,11 @@
         }
       }
     }
+    &__panel {
+      &-number {
+        font-size: 24px;
+      }
+     }
   }
 }
 

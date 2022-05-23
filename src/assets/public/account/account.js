@@ -49,8 +49,11 @@ async function refreshAccount(account) {
     });
 }
 function refreshChart(data) {
-  const dateNow = new Date().getFullYear();
-  const filteredData = getFilteredAmountByDate(data);
+  const yearNow = new Date().getFullYear();
+  const filteredData = getFilteredAmountByDate(
+    data,
+    document.location.search.substring(1)
+  );
   const chartElement = document.querySelector(".main__info-chart");
   chartElement.classList.remove("skeleton");
   const chartBody = `
@@ -66,12 +69,12 @@ function refreshChart(data) {
   let chart = new Chart(document.getElementById("chart"), {
     type: "bar",
     data: {
-      labels: getMonthsFromTransactions(filteredData, dateNow),
+      labels: getMonthsFromTransactions(filteredData, yearNow),
       datasets: [
         {
           label: "Сумма в рублях",
           backgroundColor: ["#116AAC"],
-          data: getAmountsFromTransactions(filteredData, dateNow),
+          data: getAmountsFromTransactions(filteredData, yearNow),
         },
       ],
     },
@@ -83,7 +86,7 @@ function refreshChart(data) {
     const yearLiElement = document.createElement("li");
     yearLiElement.classList.add(
       "main__info-chart-year",
-      `${date == dateNow ? "active" : "none"}`
+      `${date == yearNow ? "active" : "none"}`
     );
     yearLiElement.textContent = date;
     yearLiElement.addEventListener("click", (e) => {
