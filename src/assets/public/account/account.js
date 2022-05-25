@@ -3,7 +3,7 @@ import { showMessage } from "../../components/showMessage/showMessage.js";
 import { getFilteredAmountByDate } from "../../components/getFilteredAmountByDate.js";
 import { getMonthsFromTransactions } from "../../components/getMonthsFromTransactions.js";
 import { getAmountsFromTransactions } from "../../components/getAmountsFromTransactions.js";
-import "../../../dist/scripts/chart.js";
+import Chart from "chart.js/auto";
 import "../_config/header/header.js";
 import "../account/_account.scss";
 

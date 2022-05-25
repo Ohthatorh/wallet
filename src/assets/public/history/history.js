@@ -4,7 +4,8 @@ import { convertDate } from "../../components/convertDate/convertDate.js";
 import { getFilteredAmountByDate } from "../../components/getFilteredAmountByDate.js";
 import { getMonthsFromTransactions } from "../../components/getMonthsFromTransactions.js";
 import { getAmountsFromTransactions } from "../../components/getAmountsFromTransactions.js";
-import "../../../dist/scripts/chart.js";
+import { getFilteredAmountForChart } from "../../components/getFilteredAmountForChart.js";
+import Chart from "chart.js/auto";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken") && document.location.search) {
@@ -75,7 +76,7 @@ function refreshCharts(data) {
       labels: getMonthsFromTransactions(filteredData, yearNow),
       datasets: [
         {
-          label: "Сумма в рублях",
+          label: "Сумма в рублях на последний день месяца",
           backgroundColor: ["#116AAC"],
           data: getAmountsFromTransactions(filteredData, yearNow),
         },
@@ -85,6 +86,7 @@ function refreshCharts(data) {
       legend: { display: false },
     },
   });
+
   const chartTransactions = new Chart(
     document.getElementById("bar-chart-transactions"),
     {
@@ -93,18 +95,31 @@ function refreshCharts(data) {
         labels: getMonthsFromTransactions(filteredData, yearNow),
         datasets: [
           {
-            label: "Сумма в рублях",
-            backgroundColor: ["red", "green"],
-            data: [[20, 200], 200],
+            label: "Убыток",
+            data: getFilteredAmountForChart(filteredData, yearNow)[
+              "amountsDecrease"
+            ],
+            backgroundColor: "#FD4E5D",
+          },
+          {
+            label: "Прибыль",
+            data: getFilteredAmountForChart(filteredData, yearNow)[
+              "amountsAdding"
+            ],
+            backgroundColor: "#76CA66",
           },
         ],
       },
       options: {
-        legend: { display: false },
+        responsive: true,
+        scales: {
+          x: {
+            stacked: true,
+          },
+        },
       },
     }
   );
-  console.log(chartTransactions);
 }
 
 function refreshTable(transactions, account) {
