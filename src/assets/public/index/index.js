@@ -15,9 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
       authorizationLink.click();
   });
 
-  loginInputElement.value = "developer";
-  passwordInputElement.value = "skillbox";
-
   enterFields.forEach((input) => {
     input.addEventListener("input", (e) => {
       e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");

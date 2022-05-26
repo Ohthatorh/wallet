@@ -50,12 +50,34 @@
         font-size: 20px;
       }
       &-label {
+        position: relative;
         margin-bottom: 25px;
         align-self: end;
         margin-right: 18px;
         font-family: 'Ubuntu';
         font-weight: 500;
         font-size: 16px;
+        &-list {
+          display: none;
+          position: absolute;
+          top: 40px;
+          left: 212px;
+          width: 300px;
+          padding: 10px 0;
+          box-shadow: 0px 5px 20px rgb(0 0 0 / 25%);
+          background-color: var(--white-color);
+          border-radius: 7px;
+          z-index: 1;
+          &.is-active {
+            display: block;
+          }
+        }
+        &-item {
+          padding: 10px 16px;
+          font-family: "Ubuntu";
+          font-size: 16px;
+          cursor: pointer;
+        }
       }
       &-input {
         margin-left: 18px;
@@ -193,6 +215,10 @@
           display: flex;
           flex-direction: column;
           align-self: unset;
+          &-list {
+            top: 70px;
+            left: 0;
+          }
         }
         &-input {
           margin-top: 10px;
@@ -265,6 +291,14 @@
         width: 100%;
         &-input {
           width: 100%;
+        }
+        &-label {
+          &-list {
+            width: 100%;
+          }
+          &-item {
+            font-size: 10px;
+          }
         }
       }
     }

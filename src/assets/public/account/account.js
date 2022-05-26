@@ -3,6 +3,7 @@ import { showMessage } from "../../components/showMessage/showMessage.js";
 import { getFilteredAmountByDate } from "../../components/getFilteredAmountByDate.js";
 import { getMonthsFromTransactions } from "../../components/getMonthsFromTransactions.js";
 import { getAmountsFromTransactions } from "../../components/getAmountsFromTransactions.js";
+import { getArrStartsOn } from "../../components/getArrStartsOn.js";
 import Chart from "chart.js/auto";
 import "../_config/header/header.js";
 import "../account/_account.scss";
@@ -36,12 +37,13 @@ async function refreshAccount(account) {
   })
     .then((res) => res.json())
     .then((res) => {
-      // const allAccounts = [];
-      // res.payload.transactions.forEach((transaction) => {
-      //   if (!allAccounts.find((element) => element === transaction.to)) {
-      //     allAccounts.push(transaction.to);
-      //   }
-      // });
+      const allAccounts = [];
+      res.payload.transactions.forEach((transaction) => {
+        if (!allAccounts.find((element) => element === transaction.to)) {
+          allAccounts.push(transaction.to);
+          localStorage.setItem("autocompleteAccounts", JSON.stringify(allAccounts));
+        }
+      });
       const reverseTransactions = res.payload.transactions.slice().reverse();
       refreshChart(reverseTransactions);
       refreshTable(reverseTransactions, res.payload);
@@ -202,6 +204,8 @@ function refreshFormTransfer() {
     <label class="main__info-form-label">
       Номер счёта получателя
       <input id="account-to" type="number" class="main__info-form-input" placeholder="Номер счёта">
+      <ul class="main__info-form-label-list">
+      </ul>
     </label>
     <label class="main__info-form-label">
       Сумма перевода
@@ -213,6 +217,30 @@ function refreshFormTransfer() {
   `;
   formTransferElement.insertAdjacentHTML("beforeend", bodyFormTransfer);
   const accountTo = document.getElementById("account-to");
+  accountTo.addEventListener('input', () => {
+    const listAutocomplete = document.querySelector('.main__info-form-label-list');
+    listAutocomplete.innerHTML = '';
+    if (accountTo.value.length === 0) {
+      listAutocomplete.classList.remove('is-active');
+      return;
+    }
+    const allAccounts = getArrStartsOn(accountTo.value, JSON.parse(localStorage.getItem('autocompleteAccounts')));
+    if (allAccounts.length === 0) {
+      listAutocomplete.classList.remove('is-active');
+      return;
+    }
+    allAccounts.forEach(el => {
+      const itemAutocomplete = document.createElement('li');
+      itemAutocomplete.classList.add('main__info-form-label-item');
+      itemAutocomplete.textContent = el;
+      itemAutocomplete.addEventListener('click', () => {
+        accountTo.value = el;
+        listAutocomplete.classList.remove('is-active');
+      });
+      listAutocomplete.append(itemAutocomplete);
+    })
+    listAutocomplete.classList.add('is-active');
+  })
   const amount = document.getElementById("amount");
   const transferButtonElement = document.querySelector(
     ".main__info-form-button"

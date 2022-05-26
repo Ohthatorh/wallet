@@ -30,8 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
       e.target.classList.toggle("is-active");
     }
+    if (e.target.className == "main__wrap-sort-item is-active") refreshAccounts(e.target.id)
   });
-  async function refreshAccounts() {
+  async function refreshAccounts(sort) {
+    const IS_SORT = sort ? sort : false;
     const accountsUrl = new URL("http://localhost:3000/accounts");
     return await fetch(accountsUrl, {
       headers: {
@@ -41,6 +43,19 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((res) => {
         generateBody();
+        if (IS_SORT) {
+          switch(IS_SORT) {
+            case 'sort-balance':
+              res.payload.sort((a,b) => a.balance - b.balance);
+              break;
+            case 'sort-number':
+              res.payload.sort((a,b) => a.account - b.account);
+              break;
+            case 'sort-transaction':
+              res.payload.sort((a,b) => (a.transactions[0] && b.transactions[0]) ? a.transactions[0].date - b.transactions[0].date : null);
+              break;
+          }
+        }
         generateAccounts(res.payload);
       });
   }
@@ -90,9 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Сортировка
       </p>
       <ul class="main__wrap-sort-list">
-        <li class="main__wrap-sort-item">По номеру</li>
-        <li class="main__wrap-sort-item">По балансу</li>
-        <li class="main__wrap-sort-item">По последней транзакции</li>
+        <li id="sort-account" class="main__wrap-sort-item">По номеру</li>
+        <li id="sort-balance" class="main__wrap-sort-item">По балансу</li>
+        <li id="sort-transaction" class="main__wrap-sort-item">По последней транзакции</li>
       </ul>
     `;
     const createAccountButtonElement =
