@@ -4,7 +4,6 @@ import { showMessage } from "../../components/showMessage/showMessage.js";
 document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bearerToken"))
     document.location.href = "cabinet.html";
-
   const loginInputElement = document.querySelector("#login");
   const passwordInputElement = document.querySelector("#password");
   const authorizationLink = document.querySelector(".main__form-link");

@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector(".main__wrap-button");
     createAccountButtonElement.classList.remove("skeleton");
     createAccountButtonElement.addEventListener("click", async () => {
+      createAccountButtonElement.classList.add("loading");
       const createAccountUrl = new URL("http://localhost:3000/create-account");
       await fetch(createAccountUrl, {
         method: "POST",
@@ -123,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((res) => res.json())
         .then((res) => {
+          createAccountButtonElement.classList.remove("loading");
           if (res.payload) {
             showMessage("Счёт успешно создан!", "success");
             refreshAccounts();

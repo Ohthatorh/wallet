@@ -61,6 +61,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "index.html",
       template: "src/assets/public/index.html",
       chunks: ["indexEntry"],
@@ -68,6 +69,7 @@ module.exports = {
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "cabinet.html",
       template: "src/assets/public/cabinet.html",
       chunks: ["cabinetEntry"],
@@ -75,6 +77,7 @@ module.exports = {
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "account.html",
       template: "src/assets/public/account.html",
       chunks: ["accountEntry"],
@@ -82,6 +85,7 @@ module.exports = {
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "atms.html",
       template: "src/assets/public/atms.html",
       chunks: ["atmsEntry"],
@@ -89,6 +93,7 @@ module.exports = {
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "currency.html",
       template: "src/assets/public/currency.html",
       chunks: ["currencyEntry"],
@@ -96,6 +101,7 @@ module.exports = {
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({
+      favicon: "src/assets/img/favicon.svg",
       filename: "history.html",
       template: "src/assets/public/history.html",
       chunks: ["historyEntry"],
