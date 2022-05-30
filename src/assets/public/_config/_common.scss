@@ -119,11 +119,13 @@ button {
     &:after {
       content: '';
       position: absolute;
-      top: 5px;
-      left: 40%;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
       width: 20px;
       height: 20px;
-      margin: 8px;
       border-radius: 50%;
       border: 3px solid var(--white-color);
       border-color: var(--white-color) transparent var(--white-color) transparent;

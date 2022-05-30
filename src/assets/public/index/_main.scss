@@ -35,8 +35,7 @@
               border-color: var(--red-color);
             }
         }
-        &-link {
-            display: inline-block;
+        &-button {
             align-self: flex-start;
             border-radius: 7px;
             padding: 14px 21px;
@@ -45,10 +44,6 @@
             font-size: 14px;
             background-color: var(--primary-color);
             color: var(--white-color);
-            &.disabled {
-              pointer-events: none;
-              background-color: var(--primary-hover);
-            }
         }
     }
 }
